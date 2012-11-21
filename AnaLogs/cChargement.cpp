@@ -34,7 +34,7 @@ void cChargement::AddReq (string cFic)
 // Algorithme :
 //
 {
-	ifstream fic(cFic);  //Ouverture d'un fichier en lecture
+	ifstream fic(cFic, ios::in);  //Ouverture d'un fichier en lecture
 
 	if(fic)
 	{
@@ -42,13 +42,42 @@ void cChargement::AddReq (string cFic)
 
 		while(getline(fic, ligne))  //On lit ligne par ligne
 		{
-			istringstream motAmot(ligne);
-			string mot;
-			do
+			//Récupération des infos bruts depuis la ligne actuelle
+			istringstream ligneActuelle(ligne);
+			string useless, date, action, url, referer;
+			int status;
+			ligneActuelle >> useless >> useless >> useless >> date >> useless >> action >> url >> useless >> status >> useless >> referer;
+
+			if (status == 200)
 			{
-				motAmot >> mot;
-				cout << mot << endl;
-			} while (mot != "\n");
+				//Traitement de la date
+				date.erase(0,13);
+				date.erase(2);
+				int heure = atoi(date.c_str());
+			
+				//Traitement de la requete
+				action.erase(0,1);
+			
+				//Traitement du referer
+				referer.erase(0,1);
+				referer.erase(referer.length()-1,1);
+
+				//Suppression de la basse pour le referer si l'on vient du site actuel (et pas de l'extérieur)
+				size_t found;
+				found = referer.find("http://intranet-if.insa-lyon.fr/");
+				if (found!=string::npos)
+				{
+					referer.replace(0,31, "");
+				}
+
+				cout << "Heure : " << date << ", Action : " << action << ", URL : " << url << ", Referer : " << referer << endl;
+			}
+			else
+			{
+#ifdef MAP
+	cout << "Statut de la requete non pris en compte." << endl;
+#endif
+			}
 		}
 	}
 	else

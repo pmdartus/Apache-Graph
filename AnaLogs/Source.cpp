@@ -2,7 +2,7 @@
 using namespace std;
 #include <iostream>
 
-int main() 
+int mainOFF() 
 {
 	cChargement chargement = cChargement(false, -1);
 
@@ -10,4 +10,6 @@ int main()
 
 	int fin;
 	cin>>fin;
+
+	return 5;
 };

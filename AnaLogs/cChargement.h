@@ -6,21 +6,21 @@
 *************************************************************************/
 
 //---------- Interface de la classe <cChargement> (fichier cChargement.h) ------
-#if ! defined ( cChargement_H )
-#define cChargement_H
+#if ! defined ( XXX_H )
+#define XXX_H
 
 //--------------------------------------------------- Interfaces utilis�es
-using namespace std;
-#include <map>
 #include <string>
+#include <map>
+using namespace std;
 
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
-typedef map<int,string> mIdUrl; // Établit un lien d’id entre une adresse et un numero
-typedef int aNbHits[23]; //Le tableau correspond aux nombre de hits par créneau horraire
-typedef multimap<int, aNbHits> mLogs; // réquète réalisée : clé l'id du réfrer.
-typedef map<int, mLogs> mArcs; // Liens entre referer et cible : clé l'id de la cible
+typedef map <int,string> mIdUrl; // Établis un lien d’id entre une adresse et un numero
+typedef int tableauHorraire[25];
+typedef map <int, tableauHorraire> mLogs; // réquete réalisée : clé réfrer. Le tableau correspond aux nombre de hits par créneau horraire
+typedef map <int, mLogs> mArcs; // Liens entre referer et cible : clé la cible
 
 
 //------------------------------------------------------------------------ 
@@ -35,36 +35,39 @@ class cChargement
 
 public:
 //----------------------------------------------------- M�thodes publiques
-
-	
     void AddReq (string cFic);
     // Mode d'emploi :
-    // Ajout, dans la classe, d'un fichier .log repéré par son chemin absolu cFic.
+    //
     // Contrat :
     //
-
-	
     void Disp ();
     // Mode d'emploi :
-    // Affiche le contenu de la classe à l'écran, le tout trié par nombre de hits.
+    //
+    // Contrat :
+    //
+    void Graph (string cFic);
+    // Mode d'emploi :
+    //
     // Contrat :
     //
 
-	
-    void Graph (string cFic);
+
+//------------------------------------------------- Surcharge d'op�rateurs
+    cChargement & operator = ( const cChargement & uncChargement );
     // Mode d'emploi :
-    // Insère le contenu de la classe dans un fichier .dot, en respectant les convention de la norme.
+    //
     // Contrat :
     //
+
 
 //-------------------------------------------- Constructeurs - destructeur
 
-    cChargement ( bool html, int heure );
+    cChargement (  bool html, int heure );
     // Mode d'emploi :
-    // Fixe les variables correspondant aux options, avec les valeurs envoyés en paramètres.
+    //
     // Contrat :
     //
-
+	 
     virtual ~cChargement ( );
     // Mode d'emploi :
     //
@@ -78,10 +81,11 @@ protected:
 
 private:
 //------------------------------------------------------- M�thodes priv�es
-
+	
+    //
     void AddReq (int idRef, int idDest, int idHeure);
     // Mode d'emploi :
-    // Ajout d'une seule ligne dans la classe.
+    //
     // Contrat :
     //
 
@@ -93,8 +97,9 @@ private:
 	mIdUrl IdUrl;
 	mArcs Arcs;
 	mLogs Logs;
-	bool bOptionHtml; // si TRUE ne prend en compte que les .HTML
-	int iOptionHeure; // si = -1 on pend tout en compte
+	bool bOptionHtml;
+	int iOptionHeure;
+
 //---------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------- Classes priv�es
@@ -105,4 +110,4 @@ private:
 
 //----------------------------------------- Types d�pendants de <cChargement>
 
-#endif // cChargement_H
+#endif // XXX_H
