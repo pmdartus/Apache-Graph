@@ -5,6 +5,8 @@
 
 # Compiled Dynamic libraries
 *.so
+*.log
+*.tlog
 *.dylib
 
 # Compiled Static libraries
