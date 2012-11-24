@@ -78,12 +78,14 @@
   <ItemGroup>
     <ClCompile Include="cChargement.cpp" />
     <ClCompile Include="cIndex.cpp" />
+    <ClCompile Include="cJournal.cpp" />
     <ClCompile Include="LogApache.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cChargement.h" />
     <ClInclude Include="cIndex.h" />
+    <ClInclude Include="cJournal.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

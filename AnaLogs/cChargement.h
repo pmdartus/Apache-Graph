@@ -13,16 +13,13 @@
 #include <string>
 #include <map>
 #include "cIndex.h"
+#include "cJournal.h"
 
 using namespace std;
 
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
-typedef int tableauHorraire[25];
-typedef map <int, tableauHorraire> mLogs; // réquete réalisée : clé réfrer. Le tableau correspond aux nombre de hits par créneau horraire
-typedef map <int, mLogs> mArcs; // Liens entre referer et cible : clé la cible
-
 
 //------------------------------------------------------------------------ 
 // R�le de la classe <cChargement>
@@ -82,24 +79,16 @@ protected:
 
 private:
 //------------------------------------------------------- M�thodes priv�es
-	
-    //
-    void AddReq (int idRef, int idDest, int idHeure);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
 protected:
 //----------------------------------------------------- Attributs prot�g�s
 
 private:
 //------------------------------------------------------- Attributs priv�s
-	mArcs Arcs;
-	mLogs Logs;
 	bool bOptionHtml;
 	int iOptionHeure;
 	cIndex Index;
+	cJournal Journal;
 
 //---------------------------------------------------------- Classes amies
 

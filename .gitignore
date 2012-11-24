@@ -41,6 +41,7 @@ TestResults/
 # Logs and databases #
 ######################
 *.log
+*.tlog
 *.sqlite
 # OS generated files #
 ######################

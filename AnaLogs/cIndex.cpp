@@ -1,5 +1,3 @@
-#include <iostream>
-#include <map>
 #include "cIndex.h"
 
 using namespace std;
@@ -57,6 +55,7 @@ int cIndex::addUrl (string aUrl)
 	}
 }
 
+//Affichage à l'écran des différentes valeurs stockées dans l'index
 void cIndex::disp ()
 {
 	for(it = Index.begin(); (it != Index.end()); it++)
@@ -69,9 +68,8 @@ cIndex::cIndex(void)
 {
 }
 
-
+// Destruction des occurences
 cIndex::~cIndex(void)
 {
-	// Destruction des occurences
 	Index.clear();
 }

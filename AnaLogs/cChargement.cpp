@@ -71,17 +71,19 @@ void cChargement::AddReq (string cFic)
 					referer.replace(0,31, "");
 				}
 
+
 				#ifdef MAP
 					cout << "Heure : " << date << ", Action : " << action << ", URL : " << url << ", Referer : " << referer << endl;
 				#endif
-
 				// Ajout des Url à l'index
-				int IndexUrl = Index.addUrl(url);
-				int IndexReferer = Index.addUrl(referer);
-
-				#ifdef MAP
-				cout << url << " -> " << IndexUrl << "  |  "<< referer<<" -> "<<IndexReferer<< endl;
-				#endif
+				
+				if (heure=iOptionHeure)	
+				{
+					int IndexUrl = Index.addUrl(url);
+					int IndexReferer = Index.addUrl(referer);
+				
+					Journal.addReq(IndexUrl,IndexReferer,heure);
+				}
 
 
 			}
@@ -91,7 +93,12 @@ void cChargement::AddReq (string cFic)
 					cout << "Statut de la requete non pris en compte." << endl;
 				#endif
 			}
+			
 		}
+
+		#ifdef MAP // Affichage des différentes adresses stockés dans l'index
+			Index.disp();		
+		#endif
 
 	}
 	else
@@ -148,10 +155,3 @@ cChargement::~cChargement ( )
 //----------------------------------------------------- M�thodes prot�g�es
 
 //------------------------------------------------------- M�thodes priv�es
-
-	
-    void cChargement::AddReq (int idRef, int idDest, int idHeure)
-	// Algorithme :
-	//
-	{
-	}; //----- Fin de M�thode
