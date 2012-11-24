@@ -18,7 +18,7 @@
 #include "cChargement.h"
 
 //------------------------------------------------------------- Constantes
-#define MAP
+
 
 //---------------------------------------------------- Variables de classe
 
@@ -34,6 +34,7 @@ void cChargement::AddReq (string cFic)
 // Algorithme :
 //
 {
+
 	ifstream fic(cFic, ios::in);  //Ouverture d'un fichier en lecture
 
 	if(fic)
@@ -91,6 +92,7 @@ void cChargement::AddReq (string cFic)
 				#endif
 			}
 		}
+
 	}
 	else
 	{

@@ -16,6 +16,7 @@ private:
 public:
 	int addUrl (string aUrl);
 	string findUrl (int aNumIndex);
+	void disp ();
 
 	cIndex(void);
 	~cIndex(void);

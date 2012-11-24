@@ -34,9 +34,9 @@ string cIndex::findUrl (int aNumIndex)
 int cIndex::addUrl (string aUrl)
 {
 	it = Index.find(aUrl);
-	
+
 	// Si trouvé renvoi le numero de l'index
-	if (it->first==aUrl) 
+	if (it!=Index.end()) 
 	{
 		#ifdef MAP
 		cout<<"L'url"<<aUrl<<"existe déjà avec l'index"<<it->second<<endl;
@@ -54,6 +54,14 @@ int cIndex::addUrl (string aUrl)
 		#endif
 
 		return iIndexAjout;
+	}
+}
+
+void cIndex::disp ()
+{
+	for(it = Index.begin(); (it != Index.end()); it++)
+	{
+		cout << it->first << " -> " << it->second << endl;
 	}
 }
 
