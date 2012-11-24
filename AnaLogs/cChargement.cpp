@@ -16,6 +16,7 @@
 
 //------------------------------------------------------ Include personnel
 #include "cChargement.h"
+#include "cIndex.h"
 
 //------------------------------------------------------------- Constantes
 #define MAP
@@ -74,17 +75,17 @@ void cChargement::AddReq (string cFic)
 			}
 			else
 			{
-#ifdef MAP
-	cout << "Statut de la requete non pris en compte." << endl;
-#endif
+				#ifdef MAP
+					cout << "Statut de la requete non pris en compte." << endl;
+				#endif
 			}
 		}
 	}
 	else
 	{
-#ifdef MAP
-	cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
-#endif
+		#ifdef MAP
+			cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
+		#endif
 	}
 }; //----- Fin de M�thode
 
@@ -110,9 +111,9 @@ cChargement::cChargement ( bool html, int heure )
 // Algorithme :
 //
 {
-#ifdef MAP
-    cout << "Appel au constructeur de <cChargement>" << endl;
-#endif
+	#ifdef MAP
+		cout << "Appel au constructeur de <cChargement>" << endl;
+	#endif
 
 	bOptionHtml = html;
 	iOptionHeure = heure;

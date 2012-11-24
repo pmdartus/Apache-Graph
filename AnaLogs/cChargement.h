@@ -17,7 +17,6 @@ using namespace std;
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
-typedef map <int,string> mIdUrl; // Établis un lien d’id entre une adresse et un numero
 typedef int tableauHorraire[25];
 typedef map <int, tableauHorraire> mLogs; // réquete réalisée : clé réfrer. Le tableau correspond aux nombre de hits par créneau horraire
 typedef map <int, mLogs> mArcs; // Liens entre referer et cible : clé la cible

@@ -77,11 +77,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cChargement.cpp" />
+    <ClCompile Include="cIndex.cpp" />
     <ClCompile Include="LogApache.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cChargement.h" />
+    <ClInclude Include="cIndex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
