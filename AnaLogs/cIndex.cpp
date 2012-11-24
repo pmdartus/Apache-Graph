@@ -11,14 +11,14 @@ string cIndex::findUrl (int aNumIndex)
 	it=Index.begin();
 
 	// Boucle sur la Map jusqu'a obtenir la bonne occurence
-	while (it->second=!aNumIndex && it=!Index.end)
+	for(it = Index.begin(); (it != Index.end()) && (it->second!= aNumIndex); it++)
 	{
 	}
 
 	// Retour de l'Url 
 	if (it->second==aNumIndex)
 	{
-		return it->first
+		return it->first;
 	}
 	else
 	{
@@ -38,13 +38,22 @@ int cIndex::addUrl (string aUrl)
 	// Si trouvé renvoi le numero de l'index
 	if (it->first==aUrl) 
 	{
+		#ifdef MAP
+		cout<<"L'url"<<aUrl<<"existe déjà avec l'index"<<it->second<<endl;
+		#endif
 		return it->second;
 	}
 	// Sinon revoi l'index de l'Url inséré
 	else
 	{
-		Index.insert ( pair<string,int>(aUrl,Index.size+1) );
-		return Index.size;
+		int iIndexAjout = Index.size()+1;
+		Index.insert ( pair<string,int>(aUrl,iIndexAjout) );
+
+		#ifdef MAP
+		cout<<"Ajout de l'url"<<aUrl<<"dans l'index"<<iIndexAjout<<endl;
+		#endif
+
+		return iIndexAjout;
 	}
 }
 
@@ -56,5 +65,5 @@ cIndex::cIndex(void)
 cIndex::~cIndex(void)
 {
 	// Destruction des occurences
-	Index.clear;
+	Index.clear();
 }

@@ -12,6 +12,8 @@
 //--------------------------------------------------- Interfaces utilis�es
 #include <string>
 #include <map>
+#include "cIndex.h"
+
 using namespace std;
 
 //------------------------------------------------------------- Constantes 
@@ -36,14 +38,16 @@ public:
 //----------------------------------------------------- M�thodes publiques
     void AddReq (string cFic);
     // Mode d'emploi :
-    //
+    // AJout d'une requete sur le serveur dans la struture de donnée
     // Contrat :
     //
+
     void Disp ();
     // Mode d'emploi :
     //
     // Contrat :
     //
+
     void Graph (string cFic);
     // Mode d'emploi :
     //
@@ -63,15 +67,13 @@ public:
 
     cChargement (  bool html, int heure );
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Création de la structure de donnée pour stocker les informations de connection
+
 	 
     virtual ~cChargement ( );
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    // Destruction des différentes structures de donnée
+
 
 //------------------------------------------------------------------ PRIVE 
 
@@ -93,11 +95,11 @@ protected:
 
 private:
 //------------------------------------------------------- Attributs priv�s
-	mIdUrl IdUrl;
 	mArcs Arcs;
 	mLogs Logs;
 	bool bOptionHtml;
 	int iOptionHeure;
+	cIndex Index;
 
 //---------------------------------------------------------- Classes amies
 

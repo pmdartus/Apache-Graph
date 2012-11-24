@@ -16,7 +16,6 @@
 
 //------------------------------------------------------ Include personnel
 #include "cChargement.h"
-#include "cIndex.h"
 
 //------------------------------------------------------------- Constantes
 #define MAP
@@ -71,7 +70,19 @@ void cChargement::AddReq (string cFic)
 					referer.replace(0,31, "");
 				}
 
-				cout << "Heure : " << date << ", Action : " << action << ", URL : " << url << ", Referer : " << referer << endl;
+				#ifdef MAP
+					cout << "Heure : " << date << ", Action : " << action << ", URL : " << url << ", Referer : " << referer << endl;
+				#endif
+
+				// Ajout des Url à l'index
+				int IndexUrl = Index.addUrl(url);
+				int IndexReferer = Index.addUrl(referer);
+
+				#ifdef MAP
+				cout << url << " -> " << IndexUrl << "  |  "<< referer<<" -> "<<IndexReferer<< endl;
+				#endif
+
+
 			}
 			else
 			{
