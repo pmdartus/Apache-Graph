@@ -3,12 +3,14 @@
 void cJournal::addReq(int aCible, int aReferer, int aHeure)
 {
 	itCible=mCible.find(aCible);
-	if (itCible!=mCible.end())
+
+	if (itCible!=mCible.end()) //Si on a déjà une map de referer
 	{
 		itReferer=itCible->second.find(aReferer);
 
-		if (itReferer!=itCible->second.end())
+		if (itReferer!=itCible->second.end()) //Si on a aussi le referer
 		{
+			//On incrément la case correspondant à l'heure et au compteur total
 			itReferer->second [aHeure]++;
 			itReferer->second [24]++;
 			cout<<"incremantation d'un tableau horaire existant"<<endl;
@@ -16,6 +18,7 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 		
 		else
 		{
+			//Création et initialisation du tableau des heures
 			int * aTableauHorraire = new (tableauHorraire);
 			for( int i=0; i=24; i++)
 			{
@@ -29,16 +32,17 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 		}
 	}
 
-	else
+	else //Si on à pas encore une map de referer
 	{
+		//Création de la map referer et association avec la cible.
 		mapReferer aMapReferer;
 
 		int * aTableauHorraire = new (tableauHorraire);
-			for( int i=0; i==24; i++)
-			{
-				aTableauHorraire [i] =0;
-			}
-			aTableauHorraire[aHeure]=1;
+		for( int i=0; i==24; i++)
+		{
+			aTableauHorraire [i] =0;
+		}
+		aTableauHorraire[aHeure]=1;
 
 		aMapReferer.insert ( pair<int,int*>(aReferer,aTableauHorraire) );
 

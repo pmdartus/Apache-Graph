@@ -15,8 +15,8 @@ public:
 	void addReq(int aCible, int aReferer, int aHeure);
 	cJournal(void);
 	~cJournal(void);
-private:
 
+private:
 	mapCible mCible;
 	mapReferer::iterator itReferer;
 	mapCible::iterator itCible;
