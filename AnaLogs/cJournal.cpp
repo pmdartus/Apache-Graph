@@ -76,6 +76,40 @@ int cJournal::dispLogs(void)
 	return 0;
 }
 
+void cJournal::OptionNbVisite(int iNbVisite)
+{
+
+	while (itCible != mCible.end())
+	{
+		itReferer = (*itCible->second).begin();
+
+		while (itReferer != (*itCible->second).end() )
+		{
+			if (itReferer->second[24]<iNbVisite)
+			{
+				int* tableau = itReferer->second;
+				(*itCible->second).erase(itReferer++);
+				delete tableau;
+			}
+			else
+			{
+			++itReferer;
+			}
+		}
+
+		if ((*itCible->second).begin()== (*itCible->second).end())
+		{
+			mCible.erase(itCible++);
+		}
+		else
+		{
+			++itCible;
+		}
+	}
+
+
+}
+
 int cJournal::dispIndex() {
 	Index.disp();
 

@@ -13,7 +13,7 @@ typedef map <int, mapReferer *> mapCible;
 class cJournal
 {
 public:
-	void plusVisite ();
+	void OptionNbVisite(int iNbVisite);
 	void addReq(string sCible, string sReferer, int aHeure);
 	int dispLogs();
 	int dispIndex();

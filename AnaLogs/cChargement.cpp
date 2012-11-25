@@ -109,9 +109,10 @@ void cChargement::AddReq (string cFic)
 		}
 
 		#ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
+		int i=2;
+			Journal.OptionNbVisite(i);
 			Journal.dispLogs();
 			Journal.dispIndex();
-			int i;
 			cin>>i;
 		#endif
 
