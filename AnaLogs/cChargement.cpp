@@ -112,7 +112,7 @@ void cChargement::AddReq (string cFic)
 		int i=2;
 			Journal.OptionNbVisite(i);
 			Journal.dispLogs();
-			Journal.dispIndex();
+			//Journal.dispIndex();
 			cin>>i;
 		#endif
 

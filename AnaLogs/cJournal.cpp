@@ -22,7 +22,7 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure)
 		{
 			//Création et initialisation du tableau des heures
 			int* aTableauHorraire = new (tableauHorraire);
-			for( int i=0; i<=25; i++)
+			for( int i=0; i<=24; i++)
 			{
 				aTableauHorraire[i] =0;
 			}
@@ -39,7 +39,7 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure)
 		mapReferer * aMapReferer = new mapReferer;
 
 		int* aTableauHorraire = new (tableauHorraire);
-		for( int i=0; i==24; i++)
+		for( int i=0; i<=24; i++)
 		{
 			aTableauHorraire [i] =0;
 		}
@@ -60,11 +60,10 @@ int cJournal::dispLogs(void)
 	{
 		itReferer = (*itCible->second).begin();
 
-		cout<< Index.findUrl(itCible->first) << " vers :"<<endl;
-
+		cout<<endl;
 		while (itReferer != (*itCible->second).end() )
 		{
-			cout<<"	"<< Index.findUrl(itReferer->first) << " (" << itReferer->second[24] << " fois)"<<endl;
+			cout<<Index.findUrl(itCible->first) << " vers : "<< Index.findUrl(itReferer->first) << " (" << itReferer->second[24] << " fois)"<<endl;
 
 			++itReferer;
 		}
@@ -78,6 +77,7 @@ int cJournal::dispLogs(void)
 
 void cJournal::OptionNbVisite(int iNbVisite)
 {
+	itCible=mCible.begin();
 
 	while (itCible != mCible.end())
 	{
@@ -85,6 +85,7 @@ void cJournal::OptionNbVisite(int iNbVisite)
 
 		while (itReferer != (*itCible->second).end() )
 		{
+
 			if (itReferer->second[24]<iNbVisite)
 			{
 				int* tableau = itReferer->second;
