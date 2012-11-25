@@ -1,7 +1,10 @@
 #include "cJournal.h"
 
-void cJournal::addReq(int aCible, int aReferer, int aHeure)
+void cJournal::addReq(string sCible, string sReferer, int aHeure)
 {
+	int aCible = Index.addUrl(sCible);
+	int aReferer = Index.addUrl(sReferer);
+
 	itCible=mCible.find(aCible);
 
 	if (itCible!=mCible.end()) //Si on a déjà une map de referer
@@ -20,7 +23,7 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 		{
 			//Création et initialisation du tableau des heures
 			int * aTableauHorraire = new (tableauHorraire);
-			for( int i=0; i=24; i++)
+			for( int i=0; i<=25; i++)
 			{
 				aTableauHorraire [i] =0;
 			}
@@ -53,7 +56,7 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 	}
 }
 
-int cJournal::disp(void)
+int cJournal::dispLogs(void)
 {
 	itCible = mCible.begin();
 
@@ -63,7 +66,7 @@ int cJournal::disp(void)
 
 		while (itReferer != (*itCible->second).end() )
 		{
-			cout<<itReferer->second [24]<<endl;
+			cout<< Index.findUrl(itCible->first) << " vers "<< Index.findUrl(itReferer->first) << " (" << itReferer->second[24] << " fois)"<<endl;
 
 			++itReferer;
 		}
@@ -71,6 +74,12 @@ int cJournal::disp(void)
 		++itCible;
 	}
 
+
+	return 0;
+}
+
+int cJournal::dispIndex() {
+	Index.disp();
 
 	return 0;
 }

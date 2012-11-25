@@ -12,7 +12,6 @@
 //--------------------------------------------------- Interfaces utilis�es
 #include <string>
 #include <map>
-#include "cIndex.h"
 #include "cJournal.h"
 
 using namespace std;
@@ -87,7 +86,6 @@ private:
 //------------------------------------------------------- Attributs priv�s
 	bool bOptionHtml;
 	int iOptionHeure;
-	cIndex Index;
 	cJournal Journal;
 
 //---------------------------------------------------------- Classes amies

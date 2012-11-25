@@ -178,6 +178,6 @@ int main(int argc, char *argv[]) {
 		cout<<"Execution de la commande annulée, probleme de syntaxe dans l'appel.";
 	}
 
-	cin>>i;
+	//cin>>i;
 	return 0;
 }

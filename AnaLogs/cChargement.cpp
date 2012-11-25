@@ -16,6 +16,7 @@
 
 //------------------------------------------------------ Include personnel
 #include "cChargement.h"
+#define MAP
 
 //------------------------------------------------------------- Constantes
 
@@ -78,11 +79,8 @@ void cChargement::AddReq (string cFic)
 				// Ajout des Url à l'index
 				
 				if (heure=iOptionHeure)	
-				{
-					int IndexUrl = Index.addUrl(url);
-					int IndexReferer = Index.addUrl(referer);
-				
-					Journal.addReq(IndexUrl,IndexReferer,heure);
+				{				
+					Journal.addReq(url, referer, heure);
 				}
 
 
@@ -96,8 +94,9 @@ void cChargement::AddReq (string cFic)
 			
 		}
 
-		#ifdef MAP // Affichage des différentes adresses stockés dans l'index
-			Index.disp();		
+		#ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
+			Journal.dispLogs();
+			Journal.dispIndex();
 		#endif
 
 	}
@@ -114,6 +113,7 @@ void cChargement::Disp ()
 // Algorithme :
 //
 {
+
 }; //----- Fin de M�thode
 
 	
