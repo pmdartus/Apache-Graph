@@ -1,24 +1,28 @@
 #include "cJournal.h"
 
+
+// Ajout des requetes dans le journal
 void cJournal::addReq(string sCible, string sReferer, int aHeure)
 {
+	//Obtention de l'index pour les Url
 	int aCible = Index.addUrl(sCible);
 	int aReferer = Index.addUrl(sReferer);
 
+	//Recherche de l'existance de la cible
 	itCible=mCible.find(aCible);
 
-	if (itCible!=mCible.end()) //Si on a déjà une map de referer
+	if (itCible!=mCible.end()) //La cible est déjà stockée
 	{
 		itReferer= (*itCible->second).find(aReferer);
 
-		if (itReferer!=(*itCible->second).end()) //Si on a aussi le referer
+		if (itReferer!=(*itCible->second).end()) //Le Referer est déjà stocké 
 		{
 			//On incrément la case correspondant à l'heure et au compteur total
 			itReferer->second[aHeure]++;
 			itReferer->second [24]++;
 		}
 		
-		else
+		else //le referer de la cible n'existe pas
 		{
 			//Création et initialisation du tableau des heures
 			int* aTableauHorraire = new (tableauHorraire);
@@ -29,11 +33,12 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure)
 			aTableauHorraire[aHeure]=1;
 			aTableauHorraire[24]=1;
 
+			//insertion du tableau dans la map referer associée
 			(*itCible->second).insert ( pair<int,int*>(aReferer,aTableauHorraire) );
 		}
 	}
 
-	else //Si on à pas encore une map de referer
+	else //La cible n'existe pas 
 	{
 		//Création de la map referer et association avec la cible.
 		mapReferer * aMapReferer = new mapReferer;
@@ -52,6 +57,8 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure)
 	}
 }
 
+
+// Affichage des différentes sources et cibles avec le nombre de Hits associés à charque accés
 int cJournal::dispLogs(void)
 {
 	itCible = mCible.begin();
@@ -59,16 +66,17 @@ int cJournal::dispLogs(void)
 	while (itCible != mCible.end())
 	{
 		itReferer = (*itCible->second).begin();
+		cout<<Index.findUrl(itCible->first) << " vers : "<<endl;
 
-		cout<<endl;
 		while (itReferer != (*itCible->second).end() )
 		{
-			cout<<Index.findUrl(itCible->first) << " vers : "<< Index.findUrl(itReferer->first) << " (" << itReferer->second[24] << " fois)"<<endl;
+			cout<<"	"<< Index.findUrl(itReferer->first) << " (" << itReferer->second[24] << " fois)"<<endl;
 
 			++itReferer;
 		}
 
 		++itCible;
+		cout<<endl;
 	}
 
 
@@ -81,27 +89,33 @@ void cJournal::OptionNbVisite(int iNbVisite)
 
 	while (itCible != mCible.end())
 	{
+
+		//Initialisation des variables de parcourt
+		int aNbVisite=0;
 		itReferer = (*itCible->second).begin();
 
+		//Récupération du nombre de visite
 		while (itReferer != (*itCible->second).end() )
 		{
+			aNbVisite=itReferer->second[24]+aNbVisite;
+			++itReferer;
+		}
 
-			if (itReferer->second[24]<iNbVisite)
+		//Supression de la mémoire allouée dans le cas ou le nombre de visite est inférieur au nombre requis
+		if (aNbVisite<iNbVisite)
+		{
+			itReferer=(*itCible->second).begin();
+			while (itReferer != (*itCible->second).end() )
 			{
 				int* tableau = itReferer->second;
 				(*itCible->second).erase(itReferer++);
 				delete tableau;
 			}
-			else
-			{
-			++itReferer;
-			}
-		}
 
-		if ((*itCible->second).begin()== (*itCible->second).end())
-		{
 			mCible.erase(itCible++);
 		}
+
+		//Sinon passer à la cible suivante
 		else
 		{
 			++itCible;
