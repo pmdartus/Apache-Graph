@@ -2,6 +2,8 @@
 //--------------------------------------------------- Interfaces utilis�es
 #include <iostream>
 #include <map>
+#include <vector>
+#include <algorithm>
 using namespace std;
 #include "cIndex.h"
 
@@ -10,23 +12,26 @@ typedef int tableauHorraire[25];
 typedef map <int, int*> mapReferer;
 typedef map <int, mapReferer *> mapCible;
 
+
 // A modifier de place -> sert à sortir les 2 sources avec le plus de Hit
-struct RequetePlusVues
+struct sReq
 {
     int key;
     int nbHit;
 
-    RequetePlusVues(int k, int nb) : key(k), nbHit(nb) {}
+    sReq(int k, int nb) : key(k), nbHit(nb) {}
 
-    bool operator < (const RequetePlusVues& str) const
+    bool operator < (const sReq& str) const
     {
 		return (nbHit < str.nbHit);
     }
 };
+typedef vector <sReq> vReqOrdered;
 
 class cJournal
 {
 public:
+	void orderReq ();
 	void OptionNbVisite(int iNbVisite);
 	void addReq(string sCible, string sReferer, int aHeure);
 	int dispLogs();

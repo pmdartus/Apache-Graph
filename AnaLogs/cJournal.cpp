@@ -1,6 +1,7 @@
 #include "cJournal.h"
 
 
+
 // Ajout des requetes dans le journal
 void cJournal::addReq(string sCible, string sReferer, int aHeure)
 {
@@ -121,13 +122,53 @@ void cJournal::OptionNbVisite(int iNbVisite)
 			++itCible;
 		}
 	}
-
-
 }
 
+void cJournal::orderReq()
+{
+	vReqOrdered aReqOrdered;
+	itCible=mCible.begin();
+
+	vector<sReq>::reverse_iterator it;
+
+	while (itCible != mCible.end())
+	{
+		//Initialisation des variables de parcourt
+		int aNbVisite=0;
+		itReferer = (*itCible->second).begin();
+
+		//Récupération du nombre de visite
+		while (itReferer != (*itCible->second).end() )
+		{
+			aNbVisite=itReferer->second[24]+aNbVisite;
+			++itReferer;
+		}
+
+		//ajout d'une requete dans la structure
+		aReqOrdered.push_back(sReq(itCible->first, aNbVisite));
+
+		++itCible;
+	}
+	
+	//trie des requetes
+	sort(aReqOrdered.begin(),aReqOrdered.end());
+
+
+	it=aReqOrdered.rbegin();
+	int i=0;
+	while(it!=aReqOrdered.rend()&&i<10)
+	{
+		cout<<Index.findUrl(it->key)<< " Avec un nombe de vue : "<<it->nbHit<<endl;
+		it++;
+		i++;
+	}
+	
+}
+
+
+//Affichage de l'index du Journal
 int cJournal::dispIndex() {
 	Index.disp();
-
 	return 0;
 }
 

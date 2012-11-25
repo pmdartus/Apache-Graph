@@ -1,14 +1,8 @@
-﻿La génération a démarré 25/11/2012 21:57:02.
+﻿La génération a démarré 25/11/2012 22:35:26.
      1>Projet "C:\Users\Pm\Documents\GitHub\LogApache\AnaLogs\AnaLogs.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt LogApache.cpp Source.cpp cChargement.cpp cJournal.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt cJournal.cpp
          cJournal.cpp
-         Génération de code en cours...
-         Compilation en cours...
-         cChargement.cpp
-         Source.cpp
-         LogApache.cpp
-         Génération de code en cours...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Pm\Documents\GitHub\LogApache\Debug\AnaLogs.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Pm\Documents\GitHub\LogApache\Debug\AnaLogs.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Pm\Documents\GitHub\LogApache\Debug\AnaLogs.lib" /MACHINE:X86 Debug\cChargement.obj
          Debug\cIndex.obj
@@ -20,4 +14,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:14.57
+Temps écoulé 00:00:05.47
