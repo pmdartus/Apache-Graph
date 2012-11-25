@@ -6,9 +6,9 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 
 	if (itCible!=mCible.end()) //Si on a déjà une map de referer
 	{
-		itReferer=itCible->second.find(aReferer);
+		itReferer= (*itCible->second).find(aReferer);
 
-		if (itReferer!=itCible->second.end()) //Si on a aussi le referer
+		if (itReferer!= (*itCible->second).end()) //Si on a aussi le referer
 		{
 			//On incrément la case correspondant à l'heure et au compteur total
 			itReferer->second [aHeure]++;
@@ -26,7 +26,7 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 			}
 			aTableauHorraire[aHeure]=1;
 
-			itCible->second.insert ( pair<int,int*>(aReferer,aTableauHorraire) );
+			(*itCible->second).insert ( pair<int,int*>(aReferer,aTableauHorraire) );
 
 			cout<<"ajout d'une nouvelle Map de referer"<<endl;
 		}
@@ -35,7 +35,7 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 	else //Si on à pas encore une map de referer
 	{
 		//Création de la map referer et association avec la cible.
-		mapReferer aMapReferer;
+		mapReferer * aMapReferer = new mapReferer;
 
 		int * aTableauHorraire = new (tableauHorraire);
 		for( int i=0; i==24; i++)
@@ -44,13 +44,35 @@ void cJournal::addReq(int aCible, int aReferer, int aHeure)
 		}
 		aTableauHorraire[aHeure]=1;
 
-		aMapReferer.insert ( pair<int,int*>(aReferer,aTableauHorraire) );
+		(*aMapReferer).insert ( pair<int,int*>(aReferer,aTableauHorraire) );
 
-		mCible.insert(pair<int,mapReferer>(aCible,aMapReferer));
+		mCible.insert(pair<int,mapReferer*>(aCible,aMapReferer));
 
 		cout<<"Ajout d'un nouvelle adresse"<<endl;
 
 	}
+}
+
+int cJournal::disp(void)
+{
+	itCible = mCible.begin();
+
+	while (itCible != mCible.end())
+	{
+		itReferer = (*itCible->second).begin();
+
+		while (itReferer != (*itCible->second).end() )
+		{
+			cout<<itReferer->second [24]<<endl;
+
+			++itReferer;
+		}
+
+		++itCible;
+	}
+
+
+	return 0;
 }
 
 cJournal::cJournal(void)

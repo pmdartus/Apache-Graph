@@ -7,12 +7,13 @@ using namespace std;
 //------------------------------------------------------------------ Types 
 typedef int tableauHorraire[25];
 typedef map <int, int*> mapReferer;
-typedef map <int, mapReferer> mapCible;
+typedef map <int, mapReferer*> mapCible;
 
 class cJournal
 {
 public:
 	void addReq(int aCible, int aReferer, int aHeure);
+	int disp();
 	cJournal(void);
 	~cJournal(void);
 
