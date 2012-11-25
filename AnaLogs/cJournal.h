@@ -8,11 +8,12 @@ using namespace std;
 //------------------------------------------------------------------ Types 
 typedef int tableauHorraire[25];
 typedef map <int, int*> mapReferer;
-typedef map <int, mapReferer*> mapCible;
+typedef map <int, mapReferer *> mapCible;
 
 class cJournal
 {
 public:
+	void plusVisite ();
 	void addReq(string sCible, string sReferer, int aHeure);
 	int dispLogs();
 	int dispIndex();

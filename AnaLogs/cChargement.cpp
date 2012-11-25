@@ -50,15 +50,17 @@ void cChargement::AddReq (string cFic)
 			int status;
 			ligneActuelle >> useless >> useless >> useless >> date >> useless >> action >> url >> useless >> status >> useless >> referer;
 
-			if (status == 200)
+			//Traitement de la requete
+			action.erase(0,1);
+
+			if (status == 200 && action=="GET")
 			{
+				bool bFichierHtml = false;
+
 				//Traitement de la date
 				date.erase(0,13);
 				date.erase(2);
 				int heure = atoi(date.c_str());
-			
-				//Traitement de la requete
-				action.erase(0,1);
 			
 				//Traitement du referer
 				referer.erase(0,1);
@@ -72,15 +74,27 @@ void cChargement::AddReq (string cFic)
 					referer.replace(0,31, "");
 				}
 
+				// Recherche de l'accès d'un fichier html | prise en compte du fichier racine
+				found = referer.find(".html");
+				if (found!=string::npos || referer=="/")
+				{
+					bFichierHtml=true;
+				}
 
-				#ifdef MAP
-					cout << "Heure : " << date << ", Action : " << action << ", URL : " << url << ", Referer : " << referer << endl;
-				#endif
 				// Ajout des Url à l'index
-				
-				if (heure=iOptionHeure)	
-				{				
-					Journal.addReq(url, referer, heure);
+				if (heure==iOptionHeure || iOptionHeure==-1 )
+				{
+					if (bOptionHtml==true)
+					{
+						if (bFichierHtml==true)
+						{
+							Journal.addReq(url, referer, heure);
+						}
+					}
+					else
+					{
+						Journal.addReq(url, referer, heure);
+					}
 				}
 
 
@@ -88,7 +102,7 @@ void cChargement::AddReq (string cFic)
 			else
 			{
 				#ifdef MAP
-					cout << "Statut de la requete non pris en compte." << endl;
+					cout << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< endl;
 				#endif
 			}
 			
@@ -97,6 +111,8 @@ void cChargement::AddReq (string cFic)
 		#ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
 			Journal.dispLogs();
 			Journal.dispIndex();
+			int i;
+			cin>>i;
 		#endif
 
 	}
