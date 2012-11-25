@@ -102,7 +102,7 @@ void cChargement::AddReq (string cFic)
 			else
 			{
 				#ifdef MAP
-					cout << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< endl;
+					//cout << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< endl;
 				#endif
 			}
 			
@@ -110,8 +110,8 @@ void cChargement::AddReq (string cFic)
 
 		#ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
 		int i=2;
-			Journal.OptionNbVisite(i);
-			Journal.dispLogs();
+			//Journal.OptionNbVisite(i);
+			//Journal.dispLogs();
 			Journal.orderReq();
 			cin>>i;
 		#endif
