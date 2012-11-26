@@ -9,7 +9,7 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure)
 	int aCible = Index.addUrl(sCible);
 	int aReferer = Index.addUrl(sReferer);
 
-	//Recherche de l'existance de la cible
+	//Recherche de l'existence de la cible
 	itCible=mCible.find(aCible);
 
 	if (itCible!=mCible.end()) //La cible est déjà stockée
@@ -60,26 +60,21 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure)
 
 
 // Affichage des différentes sources et cibles avec le nombre de Hits associés à charque accés
-int cJournal::dispLogs(void)
+int cJournal::dispLogs(int maxHits)
 {
-	itCible = mCible.begin();
+	//Création et initialisation de la nouvelle structure de donnée
+	vReqOrdered aReqOrdered = orderLogs();
+	vector<sReq>::reverse_iterator it;
 
-	while (itCible != mCible.end())
+	//Affichage des requetes
+	it=aReqOrdered.rbegin();
+	int i=0;
+	while(it!=aReqOrdered.rend()&&(i<maxHits||maxHits==0))
 	{
-		itReferer = (*itCible->second).begin();
-		cout<<Index.findUrl(itCible->first) << " vers : "<<endl;
-
-		while (itReferer != (*itCible->second).end() )
-		{
-			cout<<"	"<< Index.findUrl(itReferer->first) << " (" << itReferer->second[24] << " fois)"<<endl;
-
-			++itReferer;
-		}
-
-		++itCible;
-		cout<<endl;
+		cout<<Index.findUrl(it->key)<< " ("<<it->nbHit<<" vue(s))"<<endl;
+		it++;
+		i++;
 	}
-
 
 	return 0;
 }
@@ -90,7 +85,6 @@ void cJournal::OptionNbVisite(int iNbVisite)
 
 	while (itCible != mCible.end())
 	{
-
 		//Initialisation des variables de parcourt
 		int aNbVisite=0;
 		itReferer = (*itCible->second).begin();
@@ -124,16 +118,14 @@ void cJournal::OptionNbVisite(int iNbVisite)
 	}
 }
 
-void cJournal::orderReq()
+vReqOrdered cJournal::orderLogs()
 {
 	vReqOrdered aReqOrdered;
 	itCible=mCible.begin();
 
-	vector<sReq>::reverse_iterator it;
-
 	while (itCible != mCible.end())
 	{
-		//Initialisation des variables de parcourt
+		//Initialisation des variables de parcours
 		int aNbVisite=0;
 		itReferer = (*itCible->second).begin();
 
@@ -150,25 +142,17 @@ void cJournal::orderReq()
 		++itCible;
 	}
 	
-	//trie des requetes
+	//tri des requetes
 	sort(aReqOrdered.begin(),aReqOrdered.end());
 
-
-	it=aReqOrdered.rbegin();
-	int i=0;
-	while(it!=aReqOrdered.rend()&&i<10)
-	{
-		cout<<Index.findUrl(it->key)<< " Avec un nombe de vue : "<<it->nbHit<<endl;
-		it++;
-		i++;
-	}
-	
+	return aReqOrdered;
 }
 
 
 //Affichage de l'index du Journal
 int cJournal::dispIndex() {
 	Index.disp();
+
 	return 0;
 }
 

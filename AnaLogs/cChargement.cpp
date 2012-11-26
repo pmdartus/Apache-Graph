@@ -16,7 +16,7 @@
 
 //------------------------------------------------------ Include personnel
 #include "cChargement.h"
-#define MAP
+#define MAP2
 
 //------------------------------------------------------------- Constantes
 
@@ -44,7 +44,7 @@ void cChargement::AddReq (string cFic)
 
 		while(getline(fic, ligne))  //On lit ligne par ligne
 		{
-			//Récupération des infos bruts depuis la ligne actuelle
+			//Récupération des infos bruts depuis la ligne actuelle selon un schéma précis
 			istringstream ligneActuelle(ligne);
 			string useless, date, action, url, referer;
 			int status;
@@ -60,7 +60,7 @@ void cChargement::AddReq (string cFic)
 				//Traitement de la date
 				date.erase(0,13);
 				date.erase(2);
-				int heure = atoi(date.c_str());
+				int heure = atoi(date.c_str()); //transformation en int
 			
 				//Traitement du referer
 				referer.erase(0,1);
@@ -75,8 +75,8 @@ void cChargement::AddReq (string cFic)
 				}
 
 				// Recherche de l'accès d'un fichier html | prise en compte du fichier racine
-				found = referer.find(".html");
-				if (found!=string::npos || referer=="/")
+				found = url.find(".html");
+				if (found!=string::npos || url=="/")
 				{
 					bFichierHtml=true;
 				}
@@ -96,41 +96,38 @@ void cChargement::AddReq (string cFic)
 						Journal.addReq(url, referer, heure);
 					}
 				}
-
-
 			}
 			else
 			{
-				#ifdef MAP
-					//cout << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< endl;
-				#endif
+#ifdef MAP
+	cout << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< endl;
+#endif
 			}
 			
 		}
 
-		#ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
-		int i=2;
-			//Journal.OptionNbVisite(i);
-			//Journal.dispLogs();
-			Journal.orderReq();
-			cin>>i;
-		#endif
+#ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
+	int i=2;
+	//Journal.OptionNbVisite(i);
+	//Journal.dispLogs();
+	Journal.dispIndex();
+#endif
 
 	}
 	else
 	{
-		#ifdef MAP
-			cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
-		#endif
+#ifdef MAP
+	cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
+#endif
 	}
 }; //----- Fin de M�thode
 
 	
-void cChargement::Disp ()
+void cChargement::Disp (int maxHits)
 // Algorithme :
 //
 {
-
+	Journal.dispLogs(maxHits);
 }; //----- Fin de M�thode
 
 	
@@ -148,9 +145,9 @@ cChargement::cChargement ( bool html, int heure )
 // Algorithme :
 //
 {
-	#ifdef MAP
-		cout << "Appel au constructeur de <cChargement>" << endl;
-	#endif
+#ifdef MAP
+	cout << "Appel au constructeur de <cChargement>" << endl;
+#endif
 
 	bOptionHtml = html;
 	iOptionHeure = heure;

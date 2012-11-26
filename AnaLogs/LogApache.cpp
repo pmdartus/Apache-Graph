@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) {
 
 	// ------------------ Variable contenant les options d'exec. ------------------
 	int i = 1;	// numero du paramêtre actuel
+	int aucuneOption = 10; //Pour n'afficher que les 10 premiers si aucune options
 	bool bOptionHtml = false; //booleen qui indique la nécessité de ne considérer que le HTML
 	int iOptionHeure = -1; //integer qui indique la présence d'une tranche horaire
 	int iNbHit=0; //integer qui représente le nb de hit minimum
@@ -69,6 +70,9 @@ int main(int argc, char *argv[]) {
 			cout << "Demande de creation d'un fichier dot"<<endl;
 			#endif
 
+			//On stocke le fait qu'il y ait au moins une option
+			aucuneOption = 0;
+
 			// Recherche de l'extension du fichier
 			string aFileName = argv[i+1];
 			size_t found;
@@ -97,9 +101,11 @@ int main(int argc, char *argv[]) {
 		// ------------------ Récupère les info pour le nombre de Hit ( -l )------------------
 		else if (aParameter == "-l")
 		{
-			#ifdef MAP
-			cout << "Demande de considerer que les page avec un certain nb de hits"<<endl;
-			#endif
+#ifdef MAP
+	cout << "Demande de considerer que les page avec un certain nb de hits"<<endl;
+#endif
+			//On stocke le fait qu'il y ait au moins une option
+			aucuneOption = 0;
 
 			// Prise en compte du nb de Hits et conversion en integer
 			int aNbHit = atoi(argv[i+1]);
@@ -108,9 +114,9 @@ int main(int argc, char *argv[]) {
 			if (aNbHit>=0)
 			{
 				iNbHit = aNbHit;
-				#ifdef MAP
-				cout << "Nombre de Hit minimum a prendre en comtpe : "<< iNbHit << endl;
-				#endif
+#ifdef MAP
+	cout << "Nombre de Hit minimum a prendre en comtpe : "<< iNbHit << endl;
+#endif
 
 				// On ne considère pas le prochain parametre
 				i++;
@@ -124,14 +130,20 @@ int main(int argc, char *argv[]) {
 		}
 		else if (aParameter == "-x")
 		{
-			#ifdef MAP
-			cout << "Demande de d'exculsion des fichiers autres que .html"<<endl;
-			#endif
+#ifdef MAP
+	cout << "Demande de d'exclusion des fichiers autres que .html"<<endl;
+#endif
+
+			//On stocke le fait qu'il y ait au moins une option
+			aucuneOption = 0;
 
 			bOptionHtml=true;
 		}
 		else if (aParameter == "-t")
 		{
+			//On stocke le fait qu'il y ait au moins une option
+			aucuneOption = 0;
+
 			int aTimeInt = atoi(argv[i+1]);
 			if (aTimeInt >= 0 && aTimeInt<24)
 			{
@@ -162,7 +174,7 @@ int main(int argc, char *argv[]) {
 	}
 
 
-	// Gestion des cas de retour
+	// Gestion de la commande si elle ne contient pas d'erreur
 	if (bSyntaxError == false && aLogFile.size()!=0)
 	{
 		//appel de la création du cJournal
@@ -171,6 +183,8 @@ int main(int argc, char *argv[]) {
 		cChargement chargement = cChargement(bOptionHtml, iOptionHeure);
 
 		chargement.AddReq(aLogFile);
+
+		chargement.Disp(aucuneOption);
 	}
 	else
 	{

@@ -34,11 +34,11 @@ public:
 //----------------------------------------------------- M�thodes publiques
     void AddReq (string cFic);
     // Mode d'emploi :
-    // AJout d'une requete sur le serveur dans la struture de donnée
+    // Ajout d'une requete sur le serveur dans la struture de donnée
     // Contrat :
     //
 
-    void Disp ();
+    void Disp (int maxHits);
     // Mode d'emploi :
     //
     // Contrat :
@@ -51,24 +51,16 @@ public:
     //
 
 
-//------------------------------------------------- Surcharge d'op�rateurs
-    cChargement & operator = ( const cChargement & uncChargement );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-
 //-------------------------------------------- Constructeurs - destructeur
 
     cChargement (  bool html, int heure );
     // Mode d'emploi :
-    // Création de la structure de donnée pour stocker les informations de connection
+    // Création de la structure de donnée pour stocker les informations de connexion
 
 	 
     virtual ~cChargement ( );
     // Mode d'emploi :
-    // Destruction des différentes structures de donnée
+    // Destruction des différentes structures de données
 
 
 //------------------------------------------------------------------ PRIVE 

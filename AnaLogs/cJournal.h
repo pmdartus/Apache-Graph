@@ -31,15 +31,16 @@ typedef vector <sReq> vReqOrdered;
 class cJournal
 {
 public:
-	void orderReq ();
 	void OptionNbVisite(int iNbVisite);
 	void addReq(string sCible, string sReferer, int aHeure);
-	int dispLogs();
+	int dispLogs(int maxHits); //maxHits = 0 si pas de limite d'affichage
 	int dispIndex();
 	cJournal(void);
 	~cJournal(void);
 
 private:
+	vReqOrdered orderLogs();
+
 	mapCible mCible;
 	cIndex Index;
 	mapReferer::iterator itReferer;
