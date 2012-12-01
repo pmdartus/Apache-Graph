@@ -337,7 +337,7 @@ vReqOrdered cJournal::orderLogs()
 	//tri des requetes
 	sort(aReqOrdered.begin(),aReqOrdered.end());
 
-	return aReqOrdered;
+	return aReqOrdered; 
 }; //----- Fin de Méthode
 
 //------------------------------------------------------- Méthodes privées

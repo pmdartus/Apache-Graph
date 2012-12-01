@@ -37,7 +37,7 @@ struct sReq
 		return (nbHit < str.nbHit);
     }
 };
-typedef vector <sReq> vReqOrdered;
+typedef vector <sReq> vReqOrdered; 
 
 
 //------------------------------------------------------------------------ 
