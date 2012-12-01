@@ -76,11 +76,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cCommande.cpp" />
     <ClCompile Include="cIndex.cpp" />
     <ClCompile Include="cJournal.cpp" />
     <ClCompile Include="LogApache.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cCommande.h" />
     <ClInclude Include="cIndex.h" />
     <ClInclude Include="cJournal.h" />
   </ItemGroup>
