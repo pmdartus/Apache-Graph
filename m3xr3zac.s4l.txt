@@ -1,0 +1,27 @@
+Nouveau système de découpage des logs
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# Not currently on any branch.
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   AnaLogs.sdf
+#	modified:   AnaLogs.v11.suo
+#	modified:   AnaLogs/Debug/AnaLogs.lastbuildstate
+#	modified:   AnaLogs/Debug/AnaLogs.log
+#	modified:   AnaLogs/Debug/CL.read.1.tlog
+#	modified:   AnaLogs/Debug/CL.write.1.tlog
+#	modified:   AnaLogs/Debug/cIndex.obj
+#	modified:   AnaLogs/Debug/cl.command.1.tlog
+#	modified:   AnaLogs/Debug/link.command.1.tlog
+#	modified:   AnaLogs/Debug/link.read.1.tlog
+#	modified:   AnaLogs/Debug/link.write.1.tlog
+#	modified:   AnaLogs/Debug/vc110.idb
+#	modified:   AnaLogs/Debug/vc110.pdb
+#	modified:   AnaLogs/cJournal.cpp
+#	modified:   Debug/AnaLogs.exe
+#	modified:   Debug/AnaLogs.ilk
+#	modified:   Debug/AnaLogs.pdb
+#	new file:   njerqw3i.5sg.txt
+#
+
