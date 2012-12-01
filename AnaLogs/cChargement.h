@@ -1,15 +1,15 @@
 /*************************************************************************
-                           cChargement  -  description
+			cChargement  -  récupère les infos depuis le .log
                              -------------------
-    d�but                : 12 nov. 2012
+    début                : 12 nov. 2012
     copyright            : (C) 2012 par pmdartus
 *************************************************************************/
 
 //---------- Interface de la classe <cChargement> (fichier cChargement.h) ------
-#if ! defined ( XXX_H )
-#define XXX_H
+#if ! defined ( cChargement_H )
+#define cChargement_H
 
-//--------------------------------------------------- Interfaces utilis�es
+//--------------------------------------------------- Interfaces utilisées
 #include <string>
 #include <map>
 #include "cJournal.h"
@@ -21,7 +21,7 @@ using namespace std;
 //------------------------------------------------------------------ Types 
 
 //------------------------------------------------------------------------ 
-// R�le de la classe <cChargement>
+// Rôle de la classe <cChargement>
 //
 //
 //------------------------------------------------------------------------ 
@@ -31,29 +31,17 @@ class cChargement
 //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- M�thodes publiques
-    void AddReq (string cFic);
+//----------------------------------------------------- Méthodes publiques
+    void FromFile (string cFic);
     // Mode d'emploi :
     // Ajout d'une requete sur le serveur dans la struture de donnée
-    // Contrat :
-    //
-
-    void Disp (int maxHits);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    void Graph (string cFic);
-    // Mode d'emploi :
-    //
     // Contrat :
     //
 
 
 //-------------------------------------------- Constructeurs - destructeur
 
-    cChargement (  bool html, int heure );
+    cChargement ( );
     // Mode d'emploi :
     // Création de la structure de donnée pour stocker les informations de connexion
 
@@ -66,28 +54,25 @@ public:
 //------------------------------------------------------------------ PRIVE 
 
 protected:
-//----------------------------------------------------- M�thodes prot�g�es
+//----------------------------------------------------- Méthodes protégées
 
 private:
-//------------------------------------------------------- M�thodes priv�es
+//------------------------------------------------------- Méthodes privées
 
 protected:
-//----------------------------------------------------- Attributs prot�g�s
+//----------------------------------------------------- Attributs protégés
 
 private:
-//------------------------------------------------------- Attributs priv�s
-	bool bOptionHtml;
-	int iOptionHeure;
-	cJournal Journal;
+//------------------------------------------------------- Attributs privés
 
 //---------------------------------------------------------- Classes amies
 
-//-------------------------------------------------------- Classes priv�es
+//-------------------------------------------------------- Classes privées
 
-//----------------------------------------------------------- Types priv�s
+//----------------------------------------------------------- Types privés
 
 };
 
-//----------------------------------------- Types d�pendants de <cChargement>
+//----------------------------------------- Types dépendants de <cChargement>
 
-#endif // XXX_H
+#endif // cChargement_H

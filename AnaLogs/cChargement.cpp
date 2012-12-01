@@ -1,15 +1,15 @@
 /*************************************************************************
-                           cChargement  -  description
+				cChargement  -  récupère les infos depuis le .log
                              -------------------
-    d�but                : 12 nov. 2012
+    début                : 12 nov. 2012
     copyright            : (C) 2012 par pmdartus
 *************************************************************************/
 
-//---------- R�alisation de la classe <cChargement> (fichier cChargement.cpp) --
+//---------- Réalisation de la classe <cChargement> (fichier cChargement.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include syst�me
+//-------------------------------------------------------- Include système
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -23,15 +23,15 @@
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types priv�s
+//----------------------------------------------------------- Types privés
 
 
 //----------------------------------------------------------------- PUBLIC
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- M�thodes publiques
+//----------------------------------------------------- Méthodes publiques
 	
-void cChargement::AddReq (string cFic)
+void cChargement::FromFile (string cFic)
 // Algorithme :
 //
 {
@@ -88,12 +88,12 @@ void cChargement::AddReq (string cFic)
 					{
 						if (bFichierHtml==true)
 						{
-							Journal.addReq(url, referer, heure);
+							addReq(url, referer, heure);
 						}
 					}
 					else
 					{
-						Journal.addReq(url, referer, heure);
+						addReq(url, referer, heure);
 					}
 				}
 			}
@@ -120,37 +120,19 @@ void cChargement::AddReq (string cFic)
 	cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
 #endif
 	}
-}; //----- Fin de M�thode
-
-	
-void cChargement::Disp (int maxHits)
-// Algorithme :
-//
-{
-	Journal.dispLogs(maxHits);
-}; //----- Fin de M�thode
-
-	
-void cChargement::Graph (string cFic)
-// Algorithme :
-//
-{
-}; //----- Fin de M�thode
+}; //----- Fin de Méthode
 
 
 //-------------------------------------------- Constructeurs - destructeur
 
 
-cChargement::cChargement ( bool html, int heure )
+cChargement::cChargement ( )
 // Algorithme :
 //
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <cChargement>" << endl;
 #endif
-
-	bOptionHtml = html;
-	iOptionHeure = heure;
 } //----- Fin de cChargement
 
 
@@ -166,6 +148,6 @@ cChargement::~cChargement ( )
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- M�thodes prot�g�es
+//----------------------------------------------------- Méthodes protégées
 
-//------------------------------------------------------- M�thodes priv�es
+//------------------------------------------------------- Méthodes privées

@@ -1,5 +1,16 @@
-﻿
-//--------------------------------------------------- Interfaces utilis�es
+﻿/*************************************************************************
+                    cJournal  -  gère les données à importer
+                             -------------------
+    début                : 12 nov. 2012
+    copyright            : (C) 2012 par pmdartus
+*************************************************************************/
+
+//---------- Interface de la classe <cJournal> (fichier cJournal.h) ------
+#if ! defined ( cJournal_H )
+#define cJournal_H
+
+
+//--------------------------------------------------- Interfaces utilisées
 #include <iostream>
 #include <map>
 #include <vector>
@@ -7,11 +18,12 @@
 using namespace std;
 #include "cIndex.h"
 
+//------------------------------------------------------------- Constantes 
+
 //------------------------------------------------------------------ Types 
 typedef int tableauHorraire[25];
 typedef map <int, int*> mapReferer;
 typedef map <int, mapReferer *> mapCible;
-
 
 // A modifier de place -> sert à sortir les 2 sources avec le plus de Hit
 struct sReq
@@ -28,23 +40,98 @@ struct sReq
 };
 typedef vector <sReq> vReqOrdered;
 
+
+//------------------------------------------------------------------------ 
+// Rôle de la classe <cJournal>
+//
+//
+//------------------------------------------------------------------------ 
+
 class cJournal
 {
+//----------------------------------------------------------------- PUBLIC
+
 public:
-	void OptionNbVisite(int iNbVisite);
-	void addReq(string sCible, string sReferer, int aHeure);
-	int dispLogs(int maxHits); //maxHits = 0 si pas de limite d'affichage
+//----------------------------------------------------- Méthodes publiques
+	
+	void optionNbVisite(int iNbVisite);
+    // Mode d'emploi :
+	// Affichage des différentes sources et cibles avec le nombre de Hits associés à charque accés
+    // Contrat :
+    //
+
+    
+	int dispLogs(int maxHits);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    // maxHits = 0 si pas de limite d'affichage
+
+    
 	int dispIndex();
-	cJournal(void);
-	~cJournal(void);
+    // Mode d'emploi :
+	// Affichage de l'index du Journal
+    // Contrat :
+    //
+
+
+//-------------------------------------------- Constructeurs - destructeur
+
+    cJournal ( string cFic, bool html, int heure );
+    // Mode d'emploi :
+    // 
+
+	 
+    virtual ~cJournal ( );
+    // Mode d'emploi :
+    // 
+
+
+//------------------------------------------------------------------ PRIVE 
+
+protected:
+//----------------------------------------------------- Méthodes protégées
+    
+	void addReq(string sCible, string sReferer, int aHeure);
+    // Mode d'emploi :
+	// Ajout des requetes dans le journal
+    // Contrat :
+    //
+
+    void fromFile (string cFic);
+    // Mode d'emploi :
+    // Ajout d'une requete sur le serveur dans la struture de donnée
+    // Contrat :
+    //
 
 private:
+//------------------------------------------------------- Méthodes privées
 	vReqOrdered orderLogs();
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
 
+protected:
+//----------------------------------------------------- Attributs protégés
+
+private:
+//------------------------------------------------------- Attributs privés
 	mapCible mCible;
 	cIndex Index;
 	mapReferer::iterator itReferer;
 	mapCible::iterator itCible;
+	bool bOptionHtml;
+	int iOptionHeure;
+
+//---------------------------------------------------------- Classes amies
+
+//-------------------------------------------------------- Classes privées
+
+//----------------------------------------------------------- Types privés
 
 };
 
+//----------------------------------------- Types dépendants de <cChargement>
+
+#endif // cJournal_H
