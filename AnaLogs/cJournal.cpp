@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <regex>
 
 //------------------------------------------------------ Include personnel
 #include "cJournal.h"
@@ -140,6 +141,8 @@ cJournal::~cJournal ( )
 
 //----------------------------------------------------- Méthodes protégées
 
+
+//TODO : traiter le gmt
 void cJournal::traiterReq(string date, string referer, string url)
 // Algorithme :
 //
@@ -201,19 +204,26 @@ void cJournal::fromFile (string cFic)
 
 		while(getline(fic, ligne))  //On lit ligne par ligne
 		{
+			//string useless, action, url, referer;	int status;
+			
 			//Récupération des infos bruts depuis la ligne actuelle selon un schéma précis
-			istringstream ligneActuelle(ligne);
-			string useless, date, action, url, referer;
-			int status;
-			ligneActuelle >> useless >> useless >> useless >> date >> useless >> action >> url >> useless >> status >> useless >> referer;
+			//istringstream ligneActuelle(ligne);
+			cmatch date;
+			regex dateRx("([0-9]){2}/([a-zA-z]{3})/([0-9]){4}:([0-9]){2}:([0-9]){2}:([0-9]){2}(.){2}([0-9]){4}");
+			string sDate = date[0];
+			cout << "Résultat regex pour '" << ligne << "' : " << endl << regex_search(ligne.c_str(),date, dateRx);
+			cout << " = " << sDate<< endl;
+			
+
+			//ligneActuelle >> useless >> useless >> useless >> date >> useless >> action >> url >> useless >> status >> useless >> referer;
 
 			//Traitement de la requete
-			action.erase(0,1);
+			//action.erase(0,1);
 
-			if (status == 200 && action=="GET")
+			if (/*status == 200 && action=="GET"*/true)
 			{
 				//Traitement de la date
-				traiterReq(date, referer, url);
+				//traiterReq(date, referer, url);
 			}
 			else
 			{
