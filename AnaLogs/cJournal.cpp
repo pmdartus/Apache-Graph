@@ -16,7 +16,6 @@
 
 //------------------------------------------------------ Include personnel
 #include "cJournal.h"
-#define MAP2
 
 //------------------------------------------------------------- Constantes
 
@@ -54,9 +53,10 @@ int cJournal::dispLogs(int maxHits)
 }; //----- Fin de Méthode
 
 
+//TODO : Refondre le schmilblik :)
 void cJournal::optionNbVisite(int iNbVisite)
 // Algorithme :
-//
+// 
 {
 	itCible=mCible.begin();
 
@@ -96,39 +96,6 @@ void cJournal::optionNbVisite(int iNbVisite)
 }; //----- Fin de Méthode
 
 
-vReqOrdered cJournal::orderLogs()
-// Algorithme :
-//
-{
-	vReqOrdered aReqOrdered;
-	itCible=mCible.begin();
-
-	while (itCible != mCible.end())
-	{
-		//Initialisation des variables de parcours
-		int aNbVisite=0;
-		itReferer = (*itCible->second).begin();
-
-		//Récupération du nombre de visite
-		while (itReferer != (*itCible->second).end() )
-		{
-			aNbVisite=itReferer->second[24]+aNbVisite;
-			++itReferer;
-		}
-
-		//ajout d'une requete dans la structure
-		aReqOrdered.push_back(sReq(itCible->first, aNbVisite));
-
-		++itCible;
-	}
-	
-	//tri des requetes
-	sort(aReqOrdered.begin(),aReqOrdered.end());
-
-	return aReqOrdered;
-}; //----- Fin de Méthode
-
-
 int cJournal::dispIndex()
 // Algorithme :
 //
@@ -143,7 +110,7 @@ int cJournal::dispIndex()
 //-------------------------------------------- Constructeurs - destructeur
 
 
-cJournal::cJournal ( string cFic, bool html, int heure )
+cJournal::cJournal ( string cFic, bool html, int heure, string aGraphizFile )
 // Algorithme :
 //
 {
@@ -153,8 +120,9 @@ cJournal::cJournal ( string cFic, bool html, int heure )
 
 	bOptionHtml = html;
 	iOptionHeure = heure;
+	sGraphizFile = aGraphizFile;
 	
-	FromFile (cFic)
+	fromFile (cFic);
 } //----- Fin de cChargement
 
 
@@ -172,6 +140,54 @@ cJournal::~cJournal ( )
 
 //----------------------------------------------------- Méthodes protégées
 
+void cJournal::traiterReq(string date, string referer, string url)
+// Algorithme :
+//
+{
+	bool bFichierHtml = false;
+
+	date.erase(0,13);
+	date.erase(2);
+	int heure = atoi(date.c_str()); //transformation en int
+			
+	//Traitement du referer
+	referer.erase(0,1);
+	referer.erase(referer.length()-1,1);
+
+	//Suppression de la basse pour le referer si l'on vient du site actuel (et pas de l'extérieur)
+	size_t found;
+	found = referer.find("http://intranet-if.insa-lyon.fr/");
+	if (found!=string::npos)
+	{
+		referer.replace(0,31, "");
+	}
+
+	// Recherche de l'accès d'un fichier html | prise en compte du fichier racine
+	found = url.find(".html");
+	if (found!=string::npos || url=="/")
+	{
+		bFichierHtml=true;
+	}
+
+	// Ajout des Url à l'index
+	if (heure==iOptionHeure || iOptionHeure==-1 )
+	{
+		if (bOptionHtml==true)
+		{
+			if (bFichierHtml==true)
+			{
+				addReq(url, referer, heure);
+			}
+		}
+		else
+		{
+			addReq(url, referer, heure);
+		}
+	}
+}; //----- Fin de Méthode
+
+
+//TODO : try catch du père fourra sur la récupération d'une ligne
 void cJournal::fromFile (string cFic)
 // Algorithme :
 //
@@ -196,47 +212,8 @@ void cJournal::fromFile (string cFic)
 
 			if (status == 200 && action=="GET")
 			{
-				bool bFichierHtml = false;
-
 				//Traitement de la date
-				date.erase(0,13);
-				date.erase(2);
-				int heure = atoi(date.c_str()); //transformation en int
-			
-				//Traitement du referer
-				referer.erase(0,1);
-				referer.erase(referer.length()-1,1);
-
-				//Suppression de la basse pour le referer si l'on vient du site actuel (et pas de l'extérieur)
-				size_t found;
-				found = referer.find("http://intranet-if.insa-lyon.fr/");
-				if (found!=string::npos)
-				{
-					referer.replace(0,31, "");
-				}
-
-				// Recherche de l'accès d'un fichier html | prise en compte du fichier racine
-				found = url.find(".html");
-				if (found!=string::npos || url=="/")
-				{
-					bFichierHtml=true;
-				}
-
-				// Ajout des Url à l'index
-				if (heure==iOptionHeure || iOptionHeure==-1 )
-				{
-					if (bOptionHtml==true)
-					{
-						if (bFichierHtml==true)
-						{
-							addReq(url, referer, heure);
-						}
-					}
-					else
-					{
-						addReq(url, referer, heure);
-					}
-				}
+				traiterReq(date, referer, url);
 			}
 			else
 			{
@@ -249,17 +226,17 @@ void cJournal::fromFile (string cFic)
 
 #ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
 	int i=2;
-	//Journal.OptionNbVisite(i);
-	//Journal.dispLogs();
-	Journal.dispIndex();
+	//OptionNbVisite(i);
+	//dispLogs(0);
+	dispIndex();
 #endif
+
+	dispLogs(10);
 
 	}
 	else
 	{
-#ifdef MAP
-	cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
-#endif
+		cerr << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
 	}
 }; //----- Fin de Méthode
 
@@ -318,6 +295,39 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure)
 
 		mCible.insert(pair<int,mapReferer*>(aCible,aMapReferer));
 	}
+}; //----- Fin de Méthode
+
+//TODO : optimiser si que 10 à afficher !!!
+vReqOrdered cJournal::orderLogs()
+// Algorithme :
+//
+{
+	vReqOrdered aReqOrdered;
+	itCible=mCible.begin();
+
+	while (itCible != mCible.end())
+	{
+		//Initialisation des variables de parcours
+		int aNbVisite=0;
+		itReferer = (*itCible->second).begin();
+
+		//Récupération du nombre de visite
+		while (itReferer != (*itCible->second).end() )
+		{
+			aNbVisite=itReferer->second[24]+aNbVisite;
+			++itReferer;
+		}
+
+		//ajout d'une requete dans la structure
+		aReqOrdered.push_back(sReq(itCible->first, aNbVisite));
+
+		++itCible;
+	}
+	
+	//tri des requetes
+	sort(aReqOrdered.begin(),aReqOrdered.end());
+
+	return aReqOrdered;
 }; //----- Fin de Méthode
 
 //------------------------------------------------------- Méthodes privées

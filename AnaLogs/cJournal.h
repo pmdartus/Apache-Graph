@@ -25,7 +25,6 @@ typedef int tableauHorraire[25];
 typedef map <int, int*> mapReferer;
 typedef map <int, mapReferer *> mapCible;
 
-// A modifier de place -> sert à sortir les 2 sources avec le plus de Hit
 struct sReq
 {
     int key;
@@ -77,7 +76,7 @@ public:
 
 //-------------------------------------------- Constructeurs - destructeur
 
-    cJournal ( string cFic, bool html, int heure );
+    cJournal ( string cFic, bool html, int heure, string aGraphizFile );
     // Mode d'emploi :
     // 
 
@@ -98,19 +97,26 @@ protected:
     // Contrat :
     //
 
+    void traiterReq(string date, string referer,  string url);
+    // Mode d'emploi :
+    // 
+    // Contrat :
+    //
+
     void fromFile (string cFic);
     // Mode d'emploi :
     // Ajout d'une requete sur le serveur dans la struture de donnée
     // Contrat :
     //
 
-private:
-//------------------------------------------------------- Méthodes privées
 	vReqOrdered orderLogs();
     // Mode d'emploi :
     //
     // Contrat :
     //
+
+private:
+//------------------------------------------------------- Méthodes privées
 
 protected:
 //----------------------------------------------------- Attributs protégés
@@ -123,6 +129,7 @@ private:
 	mapCible::iterator itCible;
 	bool bOptionHtml;
 	int iOptionHeure;
+	string sGraphizFile;
 
 //---------------------------------------------------------- Classes amies
 

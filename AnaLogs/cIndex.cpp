@@ -14,7 +14,6 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "cIndex.h"
-#define MAP2
 
 //------------------------------------------------------------- Constantes
 
