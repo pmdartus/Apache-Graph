@@ -1,17 +1,12 @@
-<<<<<<< HEAD
-﻿La génération a démarré 01/12/2012 20:58:51.
+﻿La génération a démarré 02/12/2012 00:38:57.
      1>Projet "C:\Users\MrKim\Documents\GitHub\LogApache\AnaLogs\AnaLogs.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt cCommande.cpp cIndex.cpp cJournal.cpp LogApache.cpp
-         LogApache.cpp
+         E:\Program Files\Microsoft\Visual Studio Ultimate 2012\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt cJournal.cpp
          cJournal.cpp
-         cIndex.cpp
-         cCommande.cpp
-     1>c:\users\mrkim\documents\github\logapache\analogs\ccommande.cpp(14): warning C4018: '<' : incompatibilité signed/unsigned
-         Génération de code en cours...
-     1>c:\users\mrkim\documents\github\logapache\analogs\cindex.cpp(82): warning C4715: 'cIndex::findUrl' : les chemins de contrôle ne retournent pas tous une valeur
+     1>c:\users\mrkim\documents\github\logapache\analogs\cjournal.cpp(229): warning C4129: '/' : caractère de séquence d'échappement non reconnu
+     1>c:\users\mrkim\documents\github\logapache\analogs\cjournal.cpp(229): warning C4129: '.' : caractère de séquence d'échappement non reconnu
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.lib" /MACHINE:X86 Debug\cCommande.obj
+         E:\Program Files\Microsoft\Visual Studio Ultimate 2012\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.lib" /MACHINE:X86 Debug\cCommande.obj
          Debug\cIndex.obj
          Debug\cJournal.obj
          Debug\LogApache.obj
@@ -20,21 +15,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:22.18
-=======
-﻿La génération a démarré 01/12/2012 20:45:49.
-     1>Projet "C:\Users\MrKim\Documents\GitHub\LogApache\AnaLogs\AnaLogs.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt cJournal.cpp
-         cJournal.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.lib" /MACHINE:X86 Debug\cIndex.obj
-         Debug\cJournal.obj
-         Debug\LogApache.obj
-         AnaLogs.vcxproj -> C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.exe
-     1>Génération du projet "C:\Users\MrKim\Documents\GitHub\LogApache\AnaLogs\AnaLogs.vcxproj" terminée (Build cible(s)).
-
-La génération a réussi.
-
-Temps écoulé 00:00:10.00
->>>>>>> master
+Temps écoulé 00:00:02.40

@@ -97,15 +97,21 @@ protected:
     // Contrat :
     //
 
-    void traiterReq(string date, string referer,  string url);
+    void fromFile (string cFic);
     // Mode d'emploi :
-    // 
+    // Lis le .log ligne par ligne
     // Contrat :
     //
 
-    void fromFile (string cFic);
+    bool splitLog(string aLigne, string &aDate, string &aRequete, string &aReferer);
     // Mode d'emploi :
-    // Ajout d'une requete sur le serveur dans la struture de donnée
+    // Récupère les informations importantes depuis une ligne de .log
+    // Contrat :
+    //
+
+    void traiterReq(string date, string referer,  string url);
+    // Mode d'emploi :
+    // Ajout des requetes dans la struture de donnée depuis des données traités
     // Contrat :
     //
 
