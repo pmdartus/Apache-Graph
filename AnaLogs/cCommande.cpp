@@ -14,11 +14,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-<<<<<<< HEAD
-using namespace std; 
-=======
 using namespace std;
->>>>>>> cJournal
 
 //------------------------------------------------------ Include personnel
 #include "cCommande.h"
@@ -38,11 +34,44 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
+//-------------------------------------------- Constructeurs - destructeur
 
+
+cCommande::cCommande(int aNbArg,char ** aCommande)
 // Algorithme :
-//	
+//
+{
+#ifdef MAP
+	cout << "Appel au constructeur de <cCommande>" << endl;
+#endif
+	
+	bSyntaxError = false;
+	bOptionHtml = false; 
+	iOptionHeure = -1;
+	iNbHit=0;
+	nbArg=aNbArg;
+	cmd=aCommande;
+
+	exploitCmd();
+}; //----- Fin de cCommande
+
+cCommande::~cCommande(void)
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au destructeur de <cCommande>" << endl;
+#endif
+}; //----- Fin de ~cCommande
+
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
 
 bool cCommande::isaNumber (string str)
+// Algorithme :
+// Lecture de la string charactère / charactère et vérification si c'est un digit ou non
 {
 	for (int i = 0; i < str.length(); i++) 
 	{
@@ -54,6 +83,9 @@ bool cCommande::isaNumber (string str)
 
 
 bool cCommande::parameterT (string aParameter)
+// Algorithme :
+// Verification de la paramètre suivant est un nombre
+// Convertion de la string en int et vérification que l'heure est valide
 {
 	if(!isaNumber(aParameter))
 	{
@@ -74,8 +106,10 @@ bool cCommande::parameterT (string aParameter)
 }; //----- Fin de Méthode
 
 
-
 bool cCommande::parameterL (string aParameter)
+// Algorithme :
+// Verification de la paramètre suivant est un nombre
+// Convertion de la string en int et vérification que le nombre de hit est valide
 {
 	if(!isaNumber(aParameter))
 	{
@@ -97,8 +131,10 @@ bool cCommande::parameterL (string aParameter)
 }; //----- Fin de Méthode
 
 
-
 bool cCommande::parameterG (string aFileName)
+// Algorithme :
+// Verification de la paramètre suivant est bien un fichier .dot
+// Puis stockage du nom du fichier dans une varialbe locale
 {
 	size_t found;
 	found = aFileName.find(".dot");
@@ -117,8 +153,9 @@ bool cCommande::parameterG (string aFileName)
 }; //----- Fin de Méthode
 
 
-
 void cCommande::gestionErreur (string aParameter)
+// Algorithme :
+// Recherche de commande connus pour proposer à l'utilisateur un correction intelligente
 {
 	if (aParameter.find("-t")!=string::npos)
 	{
@@ -137,14 +174,14 @@ void cCommande::gestionErreur (string aParameter)
 }; //----- Fin de Méthode
 
 
-
 void cCommande::cRCmd ()
+// Algorithme :
 {
 	string OptionHtml;
 	if(bOptionHtml) {
 		OptionHtml="Prise en compte des fichier Html";
 	} else {
-		OptionHtml="Prise en compte de tout les fichier";
+		OptionHtml="Prise en compte de tous les fichier";
 	}
 				
 	string OptionHeure;
@@ -172,7 +209,49 @@ void cCommande::cRCmd ()
 }; //----- Fin de Méthode
 
 
+bool cCommande::verifyDotFile ()
+// Algorithme :
+{
+	ifstream fic(aGraphizFile);
+
+	if(fic)
+	{
+		cout<<"Le fichier "<<aGraphizFile<<" existe deja vouslez vous l'effacer ? [O/N]";
+
+		char  input;
+		do
+		{
+			cin>>input;
+		}
+		while ( !cin.fail() && input!='O' && input!='N' );
+
+		fic.close();
+
+		if (input =='O')
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+
+
 bool cCommande::exploitCmd()
+// Algorithme :
+// Lecture des paramètre, paramètre par paramètre jusque le fin
+// Suivant le paramètre en cour appeler la fonction spécifique au traitement de celle ci
+// Ou envoyer un message d'erreur du fait que le syntaxe n'est pas bonne
+// Dans le cas contraire créer le cJournal pour commencer le sotckage des données pour le traitement
+
 {
 	int i=1;
 
@@ -200,7 +279,12 @@ bool cCommande::exploitCmd()
 			bSyntaxError=parameterG (cmd[i+1]);
 			if (!bSyntaxError)
 			{
-				i++;
+				bSyntaxError= verifyDotFile();
+
+				if (!bSyntaxError)
+				{
+					i++;
+				}
 			}
 		}
 
@@ -273,41 +357,6 @@ bool cCommande::exploitCmd()
 	return 0;
 }; //----- Fin de Méthode
 
-
-//-------------------------------------------- Constructeurs - destructeur
-
-
-cCommande::cCommande(int aNbArg,char ** aCommande)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de <cCommande>" << endl;
-#endif
-	
-	bSyntaxError = false;
-	bOptionHtml = false; 
-	iOptionHeure = -1;
-	iNbHit=0;
-	nbArg=aNbArg;
-	cmd=aCommande;
-
-	exploitCmd();
-}; //----- Fin de cCommande
-
-cCommande::~cCommande(void)
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <cCommande>" << endl;
-#endif
-}; //----- Fin de ~cCommande
-
-
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées
 
 //------------------------------------------------------- Méthodes privées
 
