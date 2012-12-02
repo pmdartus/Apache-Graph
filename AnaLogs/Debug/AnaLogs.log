@@ -1,37 +1,17 @@
-<<<<<<< HEAD
-﻿La génération a démarré 02/12/2012 18:16:14.
+﻿La génération a démarré 02/12/2012 22:10:53.
      1>Projet "C:\Users\MrKim\Documents\GitHub\LogApache\AnaLogs\AnaLogs.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
-         E:\Program Files\Microsoft\Visual Studio Ultimate 2012\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt LogApache.cpp cCommande.cpp cIndex.cpp cJournal.cpp
-         cJournal.cpp
-     1>c:\users\mrkim\documents\github\logapache\analogs\cjournal.cpp(272): warning C4101: 'date' : variable locale non référencée
-         cIndex.cpp
+         E:\Program Files\Microsoft\Visual Studio Ultimate 2012\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt cCommande.cpp
          cCommande.cpp
-     1>c:\users\mrkim\documents\github\logapache\analogs\ccommande.cpp(43): warning C4018: '<' : incompatibilité signed/unsigned
-         LogApache.cpp
-         Génération de code en cours...
-     1>c:\users\mrkim\documents\github\logapache\analogs\cindex.cpp(82): warning C4715: 'cIndex::findUrl' : les chemins de contrôle ne retournent pas tous une valeur
-=======
-﻿La génération a démarré 02/12/2012 17:45:55.
-     1>Projet "C:\Users\MrKim\Documents\GitHub\LogApache\AnaLogs\AnaLogs.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>ClCompile:
-         E:\Program Files\Microsoft\Visual Studio Ultimate 2012\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt cJournal.cpp
-         cJournal.cpp
-     1>c:\users\mrkim\documents\github\logapache\analogs\cjournal.cpp(272): warning C4101: 'date' : variable locale non référencée
->>>>>>> cJournal
+     1>c:\users\mrkim\documents\github\logapache\analogs\ccommande.cpp(76): warning C4018: '<' : incompatibilité signed/unsigned
        Link:
          E:\Program Files\Microsoft\Visual Studio Ultimate 2012\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.lib" /MACHINE:X86 Debug\cCommande.obj
          Debug\cIndex.obj
          Debug\cJournal.obj
          Debug\LogApache.obj
-         LINK : C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
          AnaLogs.vcxproj -> C:\Users\MrKim\Documents\GitHub\LogApache\Debug\AnaLogs.exe
      1>Génération du projet "C:\Users\MrKim\Documents\GitHub\LogApache\AnaLogs\AnaLogs.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-<<<<<<< HEAD
-Temps écoulé 00:00:05.97
-=======
-Temps écoulé 00:00:02.88
->>>>>>> cJournal
+Temps écoulé 00:00:03.93

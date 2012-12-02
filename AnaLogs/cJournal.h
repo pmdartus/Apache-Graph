@@ -65,17 +65,10 @@ class cJournal
 
 public:
 //----------------------------------------------------- Méthodes publiques
-	
-	void optionNbVisite(int iNbVisite);
-    // Mode d'emploi :
-	// Affichage des différentes sources et cibles avec le nombre de Hits associés à charque accés
-    // Contrat :
-    //
-
     
 	int dispLogs();
     // Mode d'emploi :
-    //
+    // Affichage des différentes sources et cibles avec le nombre de Hits associés à charque accés
     // Contrat :
 	//
 

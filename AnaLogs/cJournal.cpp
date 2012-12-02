@@ -51,49 +51,6 @@ int cJournal::dispLogs()
 }; //----- Fin de Méthode
 
 
-//TODO : Refondre le schmilblik :)
-void cJournal::optionNbVisite(int iNbVisite)
-// Algorithme :
-// 
-{
-	itCible=mCible.begin();
-
-	while (itCible != mCible.end())
-	{
-		//Initialisation des variables de parcourt
-		int aNbVisite=0;
-		itReferer = (*itCible->second).begin();
-
-		//Récupération du nombre de visite
-		while (itReferer != (*itCible->second).end() )
-		{
-			aNbVisite=itReferer->second[24]+aNbVisite;
-			++itReferer;
-		}
-
-		//Supression de la mémoire allouée dans le cas ou le nombre de visite est inférieur au nombre requis
-		if (aNbVisite<iNbVisite)
-		{
-			itReferer=(*itCible->second).begin();
-			while (itReferer != (*itCible->second).end() )
-			{
-				int* tableau = itReferer->second;
-				(*itCible->second).erase(itReferer++);
-				delete tableau;
-			}
-
-			mCible.erase(itCible++);
-		}
-
-		//Sinon passer à la cible suivante
-		else
-		{
-			++itCible;
-		}
-	}
-}; //----- Fin de Méthode
-
-
 int cJournal::dispIndex()
 // Algorithme :
 //
@@ -234,11 +191,7 @@ void cJournal::traiterReq(int heure, string referer, string url, string statut)
 						found = url.find(".gif");
 						if(found==string::npos)
 						{
-<<<<<<< HEAD
 							found = url.find(".ico"); 
-=======
-							found = url.find(".ico");
->>>>>>> cJournal
 							if(found==string::npos)
 							{
 								found = url.find(".css");
@@ -264,7 +217,7 @@ void cJournal::traiterReq(int heure, string referer, string url, string statut)
 }; //----- Fin de Méthode
 
 
-//TODO : traiter le gmt
+
 string cJournal::splitLog(string aLigne, int &aHeure, string &aRequete, string &aReferer, string &aStatut)
 // Algorithme :
 //
@@ -295,7 +248,7 @@ cerr << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< 
 }; //----- Fin de Méthode
 
 
-//TODO : try catch du père fourra sur la récupération d'une ligne + compteur d'erreur
+
 void cJournal::fromFile (string cFic)
 // Algorithme :
 //
@@ -337,6 +290,7 @@ void cJournal::fromFile (string cFic)
 		cerr << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
 	}
 }; //----- Fin de Méthode
+
 
 void cJournal::screenOutput(vReqScreenOrd aReqS)
 // Algorithme :
@@ -387,7 +341,7 @@ void cJournal::graphVizOutput(vReqGraphOrd aReqG, vReqScreenOrd aReqS, string aD
 
 		if (it!=aReqG.rend())
 		{
-			sNodes<<"node"<<itPop->url<<" [label=\""<<Index.findUrl(itPop->url)<<"\"];"<<endl;
+			sNodes<<"node"<<itPop->url<<" [label=\""<<Index.findUrl(itPop->url)<<"\",fillcolor=\"dodgerblue1\", style=\"filled,rounded\"];"<<endl;
 			aReqNodes.insert ( pair<int,bool>(itPop->url,true) );
 			iPop++;
 		}
@@ -431,7 +385,7 @@ void cJournal::graphVizOutput(vReqGraphOrd aReqG, vReqScreenOrd aReqS, string aD
 	}
 }; //----- Fin de Méthode
 
-//TODO : optimiser si que 10 à afficher !!!
+
 int cJournal::orderLogs(vReqScreenOrd &aReqS, vReqGraphOrd &aReqG)
 // Algorithme :
 //

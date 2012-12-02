@@ -21,7 +21,7 @@ using namespace std;
 #include "cJournal.h"
 
 //------------------------------------------------------------- Constantes
-#define MAP
+//#define MAP
 
 
 //---------------------------------------------------- Variables de classe
@@ -208,7 +208,7 @@ void cCommande::cRCmd ()
 	cout<<OptionGraphiz<<endl<<endl;
 }; //----- Fin de Méthode
 
-
+//TODO: débug ^^
 bool cCommande::verifyDotFile ()
 // Algorithme :
 {
