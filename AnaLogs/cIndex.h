@@ -60,7 +60,7 @@ public:
     // Mode d'emploi :
     // 
 
-	 
+	  
     virtual ~cIndex ( );
     // Mode d'emploi :
     // 
