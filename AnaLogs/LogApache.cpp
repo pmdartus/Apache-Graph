@@ -8,9 +8,6 @@
 //-------------------------------------------------------- Include systeme
 //#define MAP
 #include <iostream>
-#include <iostream>
-#include <sstream>
-#include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -19,12 +16,15 @@ using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-	// Création de la classe Commande et execution de celle ci
-	//cCommande LectureCmd =cCommande(argc,&*argv);
-	
-	cJournal Journal = cJournal("C:\\Users\\MrKim\\Documents\\GitHub\\LogApache\\Debug\\test.log", false, -1, "", 10);
+#ifdef MAP
+	cJournal Journal = cJournal("C:\\Users\\MrKim\\Documents\\GitHub\\LogApache\\Debug\\test.log", 0, "C:\\Users\\MrKim\\Documents\\GitHub\\LogApache\\Debug\\test.dot");
+	Journal.dispLogs();
 	int test;
 	cin >> test;
+#else
+	// Création de la classe Commande et execution de celle ci
+	cCommande LectureCmd =cCommande(argc,&*argv);
+#endif;
 }
 
 

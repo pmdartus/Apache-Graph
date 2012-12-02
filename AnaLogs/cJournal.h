@@ -25,19 +25,32 @@ typedef int tableauHorraire[25];
 typedef map <int, int*> mapReferer;
 typedef map <int, mapReferer *> mapCible;
 
-struct sReq
+struct sReqScreen
 {
-    int key;
-    int nbHit;
+    int url, nbHits;
+	
 
-    sReq(int k, int nb) : key(k), nbHit(nb) {}
+    sReqScreen(int aUrl, int aNbHits) : url(aUrl), nbHits(aNbHits) {}
 
-    bool operator < (const sReq& str) const
+    bool operator < (const sReqScreen& sReqCompare) const
     {
-		return (nbHit < str.nbHit);
+		return (nbHits < sReqCompare.nbHits);
     }
 };
-typedef vector <sReq> vReqOrdered; 
+struct sReqGraph
+{
+    int url, referer, nbHits;
+
+    sReqGraph(int aUrl, int aRef, int aNbHits) : url(aUrl), referer(aRef), nbHits(aNbHits) {}
+
+    bool operator < (const sReqGraph& sReqCompare) const
+    {
+		return (nbHits < sReqCompare.nbHits);
+    }
+};
+typedef vector <sReqScreen> vReqScreenOrd; 
+typedef vector <sReqGraph> vReqGraphOrd; 
+typedef map <int, bool> mapNodes;
 
 
 //------------------------------------------------------------------------ 
@@ -76,7 +89,7 @@ public:
 
 //-------------------------------------------- Constructeurs - destructeur
 
-    cJournal ( string cFic, bool html, int heure, string aGraphizFile, int aNbHit );
+    cJournal ( string cFic, int aNbHits = 0, string aGraphizFile = "", bool html = false, int heure = -1 );
     // Mode d'emploi :
     // 
     // Contrat :
@@ -103,8 +116,8 @@ protected:
     // Mode d'emploi :
     // Ajout des requetes dans la struture de donnée depuis des données traités
     // Contrat :
-    // date fait 21 caractères
 	// referer fait au moins 3 caractères
+	// le parametre -l exclut les extentions : .jpg, .jpeg, .png, .gif, .ico .css, .js
 
     string splitLog(string aLigne, int &aDate, string &aRequete, string &aReferer, string &aStatut);
     // Mode d'emploi :
@@ -118,13 +131,20 @@ protected:
     // Contrat :
     //
 
-    void screenOutput(vReqOrdered aReqOrdered);
+    void screenOutput(vReqScreenOrd aReqS);
     // Mode d'emploi :
     // Affiche à l'écran
     // Contrat :
 	//
 
-	vReqOrdered orderLogs();
+    void graphVizOutput(vReqGraphOrd aReqG, vReqScreenOrd aReqS, string aDot);
+    // Mode d'emploi :
+    // Ecrit dans le gichier GraphViz
+    // Contrat :
+	// Le fichier passé en paramètre doit être valide.
+	// Il sera effacé, il faut donc que l'utilisateur ait été avertit auparavant.
+
+	int orderLogs(vReqScreenOrd &aReqS, vReqGraphOrd &aReqG);
     // Mode d'emploi :
     //
     // Contrat :
@@ -143,7 +163,7 @@ private:
 	mapReferer::iterator itReferer;
 	mapCible::iterator itCible;
 	bool bOptionHtml;
-	int iOptionHeure, iNbInt;
+	int iOptionHeure, iNbHits;
 	string sGraphizFile;
 
 //---------------------------------------------------------- Classes amies

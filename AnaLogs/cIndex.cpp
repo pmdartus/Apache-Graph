@@ -102,7 +102,7 @@ cIndex::cIndex ( )
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <cChargement>" << endl;
+	cout << "Appel au constructeur de <cIndex>" << endl;
 #endif
 
 } //----- Fin de cIndex
@@ -113,7 +113,7 @@ cIndex::~cIndex ( )
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <cChargement>" << endl;
+    cout << "Appel au destructeur de <cIndex>" << endl;
 #endif
 	Index.clear();
 } //----- Fin de ~cIndex

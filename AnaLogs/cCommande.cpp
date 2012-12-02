@@ -257,7 +257,8 @@ bool cCommande::exploitCmd()
 			cRCmd ();
 		#endif
 
-		cJournal Journal = cJournal(aLogFile, bOptionHtml, iOptionHeure, aGraphizFile, iNbHit);
+		cJournal Journal = cJournal(aLogFile, iNbHit, aGraphizFile, bOptionHtml, iOptionHeure );
+		Journal.dispLogs();
 	}
 	else
 	{
@@ -277,7 +278,7 @@ cCommande::cCommande(int aNbArg,char ** aCommande)
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <cChargement>" << endl;
+	cout << "Appel au constructeur de <cCommande>" << endl;
 #endif
 	
 	bSyntaxError = false;
@@ -295,7 +296,7 @@ cCommande::~cCommande(void)
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <cChargement>" << endl;
+    cout << "Appel au destructeur de <cCommande>" << endl;
 #endif
 }; //----- Fin de ~cCommande
 
