@@ -1,13 +1,42 @@
-#define MAP
+/*************************************************************************
+               cCommande  -  gère le lancement de la commande
+                             -------------------
+    début                : 12 nov. 2012
+    copyright            : (C) 2012 par pmdartus
+*************************************************************************/
+
+//---------- Réalisation de la classe <cCommande> (fichier cCommande.cpp) --
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
 #include <iostream>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 using namespace std;
 
-
+//------------------------------------------------------ Include personnel
 #include "cCommande.h"
 #include "cJournal.h"
+
+//------------------------------------------------------------- Constantes
+#define MAP
+
+
+//---------------------------------------------------- Variables de classe
+
+//----------------------------------------------------------- Types privés
+
+
+//----------------------------------------------------------------- PUBLIC
+//-------------------------------------------------------- Fonctions amies
+
+//----------------------------------------------------- Méthodes publiques
+
+
+// Algorithme :
+//	
 
 bool cCommande::isaNumber (string str)
 {
@@ -17,7 +46,8 @@ bool cCommande::isaNumber (string str)
 		return false;
    }
 	return true;
-}
+}; //----- Fin de Méthode
+
 
 bool cCommande::parameterT (string aParameter)
 {
@@ -37,7 +67,8 @@ bool cCommande::parameterT (string aParameter)
 		}
 	}
 	return false;
-}
+}; //----- Fin de Méthode
+
 
 
 bool cCommande::parameterL (string aParameter)
@@ -59,7 +90,8 @@ bool cCommande::parameterL (string aParameter)
 	}
 
 	return false;
-}
+}; //----- Fin de Méthode
+
 
 
 bool cCommande::parameterG (string aFileName)
@@ -78,7 +110,8 @@ bool cCommande::parameterG (string aFileName)
 		return true;
 	}
 	return false;
-}
+}; //----- Fin de Méthode
+
 
 
 void cCommande::gestionErreur (string aParameter)
@@ -97,7 +130,8 @@ void cCommande::gestionErreur (string aParameter)
 	{
 		cout<<"		Vous voulez dire : -l [nombreHits]"<<endl;
 	}
-}
+}; //----- Fin de Méthode
+
 
 
 void cCommande::cRCmd ()
@@ -131,7 +165,8 @@ void cCommande::cRCmd ()
 	cout<<OptionHeure<<endl;
 	cout<<OptionHit<<endl;
 	cout<<OptionGraphiz<<endl<<endl;
-	}
+}; //----- Fin de Méthode
+
 
 bool cCommande::exploitCmd()
 {
@@ -222,7 +257,7 @@ bool cCommande::exploitCmd()
 			cRCmd ();
 		#endif
 
-		cJournal Journal = cJournal(aLogFile, bOptionHtml, iOptionHeure, aGraphizFile);
+		cJournal Journal = cJournal(aLogFile, bOptionHtml, iOptionHeure, aGraphizFile, iNbHit);
 	}
 	else
 	{
@@ -231,10 +266,20 @@ bool cCommande::exploitCmd()
 	}
 
 	return 0;
-}
+}; //----- Fin de Méthode
+
+
+//-------------------------------------------- Constructeurs - destructeur
+
 
 cCommande::cCommande(int aNbArg,char ** aCommande)
+// Algorithme :
+//
 {
+#ifdef MAP
+	cout << "Appel au constructeur de <cChargement>" << endl;
+#endif
+	
 	bSyntaxError = false;
 	bOptionHtml = false; 
 	iOptionHeure = -1;
@@ -243,8 +288,22 @@ cCommande::cCommande(int aNbArg,char ** aCommande)
 	cmd=aCommande;
 
 	exploitCmd();
-}
+}; //----- Fin de cCommande
 
 cCommande::~cCommande(void)
+// Algorithme :
+//
 {
-}
+#ifdef MAP
+    cout << "Appel au destructeur de <cChargement>" << endl;
+#endif
+}; //----- Fin de ~cCommande
+
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
+
+//------------------------------------------------------- Méthodes privées
+
+

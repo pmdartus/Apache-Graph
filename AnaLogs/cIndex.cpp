@@ -105,7 +105,7 @@ cIndex::cIndex ( )
 	cout << "Appel au constructeur de <cChargement>" << endl;
 #endif
 
-} //----- Fin de cChargement
+} //----- Fin de cIndex
 
 
 cIndex::~cIndex ( )
@@ -116,7 +116,7 @@ cIndex::~cIndex ( )
     cout << "Appel au destructeur de <cChargement>" << endl;
 #endif
 	Index.clear();
-} //----- Fin de ~cChargement
+} //----- Fin de ~cIndex
 
 
 //------------------------------------------------------------------ PRIVE

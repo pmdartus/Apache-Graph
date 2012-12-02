@@ -60,11 +60,11 @@ public:
     //
 
     
-	int dispLogs(int maxHits);
+	int dispLogs();
     // Mode d'emploi :
     //
     // Contrat :
-    // maxHits = 0 si pas de limite d'affichage
+	//
 
     
 	int dispIndex();
@@ -76,9 +76,11 @@ public:
 
 //-------------------------------------------- Constructeurs - destructeur
 
-    cJournal ( string cFic, bool html, int heure, string aGraphizFile );
+    cJournal ( string cFic, bool html, int heure, string aGraphizFile, int aNbHit );
     // Mode d'emploi :
     // 
+    // Contrat :
+    // maxHits = 0 si pas de limite d'affichage
 
 	 
     virtual ~cJournal ( );
@@ -97,11 +99,12 @@ protected:
     // Contrat :
     //
 
-    void fromFile (string cFic);
+    void traiterReq(int heure, string referer,  string url, string statut);
     // Mode d'emploi :
-    // Lis le .log ligne par ligne
+    // Ajout des requetes dans la struture de donnée depuis des données traités
     // Contrat :
-    //
+    // date fait 21 caractères
+	// referer fait au moins 3 caractères
 
     string splitLog(string aLigne, int &aDate, string &aRequete, string &aReferer, string &aStatut);
     // Mode d'emploi :
@@ -109,12 +112,17 @@ protected:
     // Contrat :
     //
 
-    void traiterReq(int heure, string referer,  string url, string statut);
+    void fromFile (string cFic);
     // Mode d'emploi :
-    // Ajout des requetes dans la struture de donnée depuis des données traités
+    // Lis le .log ligne par ligne
     // Contrat :
-    // date fait 21 caractères
-	// referer fait au moins 3 caractères
+    //
+
+    void screenOutput(vReqOrdered aReqOrdered);
+    // Mode d'emploi :
+    // Affiche à l'écran
+    // Contrat :
+	//
 
 	vReqOrdered orderLogs();
     // Mode d'emploi :
@@ -135,7 +143,7 @@ private:
 	mapReferer::iterator itReferer;
 	mapCible::iterator itCible;
 	bool bOptionHtml;
-	int iOptionHeure;
+	int iOptionHeure, iNbInt;
 	string sGraphizFile;
 
 //---------------------------------------------------------- Classes amies

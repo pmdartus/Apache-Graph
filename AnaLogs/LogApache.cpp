@@ -20,11 +20,11 @@ using namespace std;
 int main(int argc, char *argv[]) 
 {
 	// Création de la classe Commande et execution de celle ci
-	cCommande LectureCmd =cCommande(argc,&*argv);
+	//cCommande LectureCmd =cCommande(argc,&*argv);
 	
-	/*cJournal Journal = cJournal("C:\\Users\\MrKim\\Documents\\GitHub\\LogApache\\Debug\\anonyme.log", false, -1, "");
+	cJournal Journal = cJournal("C:\\Users\\MrKim\\Documents\\GitHub\\LogApache\\Debug\\test.log", false, -1, "", 10);
 	int test;
-	cin >> test;*/
+	cin >> test;
 }
 
 

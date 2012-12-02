@@ -31,24 +31,17 @@
 
 //----------------------------------------------------- Méthodes publiques
 
-
-int cJournal::dispLogs(int maxHits)
+//TODO : Gérer le graphfiz
+//TODO : gérer le -l
+int cJournal::dispLogs()
 // Algorithme :
 //
 {
 	//Création et initialisation de la nouvelle structure de donnée
-	vReqOrdered aReqOrdered = orderLogs();
-	vector<sReq>::reverse_iterator it;
+	vReqOrdered reqOrdered = orderLogs();
 
-	//Affichage des requetes
-	it=aReqOrdered.rbegin();
-	int i=0;
-	while(it!=aReqOrdered.rend()&&(i<maxHits||maxHits==0))
-	{
-		cout<<Index.findUrl(it->key)<< " ("<<it->nbHit<<" vue(s))"<<endl;
-		it++;
-		i++;
-	}
+	//Affichage des requetes à l'écran
+	screenOutput(reqOrdered);
 
 	return 0;
 }; //----- Fin de Méthode
@@ -111,7 +104,7 @@ int cJournal::dispIndex()
 //-------------------------------------------- Constructeurs - destructeur
 
 
-cJournal::cJournal ( string cFic, bool html, int heure, string aGraphizFile )
+cJournal::cJournal ( string cFic, bool html, int heure, string aGraphizFile, int aNbHit )
 // Algorithme :
 //
 {
@@ -122,9 +115,10 @@ cJournal::cJournal ( string cFic, bool html, int heure, string aGraphizFile )
 	bOptionHtml = html;
 	iOptionHeure = heure;
 	sGraphizFile = aGraphizFile;
+	iNbInt = aNbHit;
 	
 	fromFile (cFic);
-} //----- Fin de cChargement
+} //----- Fin de cJournal
 
 
 cJournal::~cJournal ( )
@@ -134,12 +128,69 @@ cJournal::~cJournal ( )
 #ifdef MAP
     cout << "Appel au destructeur de <cChargement>" << endl;
 #endif
-} //----- Fin de ~cChargement
+} //----- Fin de ~cJournal
 
 
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+
+void cJournal::addReq(string sCible, string sReferer, int aHeure )
+// Algorithme :
+//
+{
+	//Obtention de l'index pour les Url
+	int aCible = Index.addUrl(sCible);
+	int aReferer = Index.addUrl(sReferer);
+
+	//Recherche de l'existence de la cible
+	itCible=mCible.find(aCible);
+
+	if (itCible!=mCible.end()) //La cible est déjà stockée
+	{
+		itReferer= (*itCible->second).find(aReferer);
+
+		if (itReferer!=(*itCible->second).end()) //Le Referer est déjà stocké 
+		{
+			//On incrément la case correspondant à l'heure et au compteur total
+			itReferer->second[aHeure]++;
+			itReferer->second [24]++;
+		}
+		
+		else //le referer de la cible n'existe pas
+		{
+			//Création et initialisation du tableau des heures
+			int* aTableauHorraire = new (tableauHorraire);
+			for( int i=0; i<=24; i++)
+			{
+				aTableauHorraire[i] =0;
+			}
+			aTableauHorraire[aHeure]=1;
+			aTableauHorraire[24]=1;
+
+			//insertion du tableau dans la map referer associée
+			(*itCible->second).insert ( pair<int,int*>(aReferer,aTableauHorraire) );
+		}
+	}
+
+	else //La cible n'existe pas 
+	{
+		//Création de la map referer et association avec la cible.
+		mapReferer * aMapReferer = new mapReferer;
+
+		int* aTableauHorraire = new (tableauHorraire);
+		for( int i=0; i<=24; i++)
+		{
+			aTableauHorraire [i] =0;
+		}
+		aTableauHorraire[aHeure]=1;
+		aTableauHorraire[24]=1;
+
+		(*aMapReferer).insert ( pair<int,int*>(aReferer,aTableauHorraire) );
+
+		mCible.insert(pair<int,mapReferer*>(aCible,aMapReferer));
+	}
+}; //----- Fin de Méthode
 
 
 void cJournal::traiterReq(int heure, string referer, string url, string statut)
@@ -249,7 +300,7 @@ void cJournal::fromFile (string cFic)
 
 	cout << "Lecture terminée" <<endl;
 
-	dispLogs(10);
+	dispLogs();
 
 	}
 	else
@@ -258,60 +309,19 @@ void cJournal::fromFile (string cFic)
 	}
 }; //----- Fin de Méthode
 
-void cJournal::addReq(string sCible, string sReferer, int aHeure)
+void cJournal::screenOutput(vReqOrdered aReqOrdered)
 // Algorithme :
 //
 {
-	//Obtention de l'index pour les Url
-	int aCible = Index.addUrl(sCible);
-	int aReferer = Index.addUrl(sReferer);
+	vector<sReq>::reverse_iterator it;
 
-	//Recherche de l'existence de la cible
-	itCible=mCible.find(aCible);
-
-	if (itCible!=mCible.end()) //La cible est déjà stockée
+	it=aReqOrdered.rbegin();
+	int i=0;
+	while(it!=aReqOrdered.rend()&&(i<10))//||iMaxHits==0))
 	{
-		itReferer= (*itCible->second).find(aReferer);
-
-		if (itReferer!=(*itCible->second).end()) //Le Referer est déjà stocké 
-		{
-			//On incrément la case correspondant à l'heure et au compteur total
-			itReferer->second[aHeure]++;
-			itReferer->second [24]++;
-		}
-		
-		else //le referer de la cible n'existe pas
-		{
-			//Création et initialisation du tableau des heures
-			int* aTableauHorraire = new (tableauHorraire);
-			for( int i=0; i<=24; i++)
-			{
-				aTableauHorraire[i] =0;
-			}
-			aTableauHorraire[aHeure]=1;
-			aTableauHorraire[24]=1;
-
-			//insertion du tableau dans la map referer associée
-			(*itCible->second).insert ( pair<int,int*>(aReferer,aTableauHorraire) );
-		}
-	}
-
-	else //La cible n'existe pas 
-	{
-		//Création de la map referer et association avec la cible.
-		mapReferer * aMapReferer = new mapReferer;
-
-		int* aTableauHorraire = new (tableauHorraire);
-		for( int i=0; i<=24; i++)
-		{
-			aTableauHorraire [i] =0;
-		}
-		aTableauHorraire[aHeure]=1;
-		aTableauHorraire[24]=1;
-
-		(*aMapReferer).insert ( pair<int,int*>(aReferer,aTableauHorraire) );
-
-		mCible.insert(pair<int,mapReferer*>(aCible,aMapReferer));
+		cout<<Index.findUrl(it->key)<< " ("<<it->nbHit<<" vue(s))"<<endl;
+		it++;
+		i++;
 	}
 }; //----- Fin de Méthode
 
