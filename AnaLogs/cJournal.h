@@ -103,17 +103,18 @@ protected:
     // Contrat :
     //
 
-    bool splitLog(string aLigne, string &aDate, string &aRequete, string &aReferer);
+    string splitLog(string aLigne, int &aDate, string &aRequete, string &aReferer, string &aStatut);
     // Mode d'emploi :
     // Récupère les informations importantes depuis une ligne de .log
     // Contrat :
     //
 
-    void traiterReq(string date, string referer,  string url);
+    void traiterReq(int heure, string referer,  string url, string statut);
     // Mode d'emploi :
     // Ajout des requetes dans la struture de donnée depuis des données traités
     // Contrat :
-    //
+    // date fait 21 caractères
+	// referer fait au moins 3 caractères
 
 	vReqOrdered orderLogs();
     // Mode d'emploi :

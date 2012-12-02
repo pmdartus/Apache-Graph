@@ -142,107 +142,73 @@ cJournal::~cJournal ( )
 //----------------------------------------------------- Méthodes protégées
 
 
-//TODO : traiter le gmt
-void cJournal::traiterReq(string date, string referer, string url)
+void cJournal::traiterReq(int heure, string referer, string url, string statut)
 // Algorithme :
 //
 {
-	if (url.length()>1) //Pour être sur que l'on ne supprime pas une chaine vide.
+	//Traitement du referer
+	referer.erase(0,1);
+	referer.erase(referer.length()-1,1);
+
+	//Suppression de la base pour le referer si l'on vient du site actuel (et pas de l'extérieur)
+	size_t found;
+	if (referer.find("http://intranet-if.insa-lyon.fr")!=string::npos)
 	{
-		string statut = url;
-		statut.erase(0, statut.length()-3); //récupération du statut
-		url.erase(url.length()-14, 14); //puis suppression dans la requete suppression du statut
-		url.erase(0, 5); //et de l'action
+		referer.erase(0,30);
+	}
+	else if (referer.find("http://if.insa-lyon.fr")!=string::npos)
+	{
+		referer.erase(0,21);
+	}
 
-		if (statut == "200")
+	// Ajout des Url à l'index
+	if (iOptionHeure == -1 || heure==iOptionHeure )
+	{
+		if (bOptionHtml==true)//Optimisation pour que l'on ne cherche que quand l'option html est active
 		{
-			bool bFichierHtml = false;
-
-			date.erase(0,13);
-			date.erase(2);
-			int heure = atoi(date.c_str()); //transformation en int
-			
-			//Traitement du referer
-			referer.erase(0,1);
-			referer.erase(referer.length()-3,3);
-
-			//Suppression de la base pour le referer si l'on vient du site actuel (et pas de l'extérieur)
-			size_t found;
-			found = referer.find("http://intranet-if.insa-lyon.fr/");
-			if (found!=string::npos)
-			{
-				referer.replace(0,31, "");
-			}
-
 			// Recherche de l'accès d'un fichier html | prise en compte du fichier racine
 			found = url.find(".html");
-			if (found!=string::npos || url=="/")
+			if(found!=string::npos || url=="/")
 			{
-				bFichierHtml=true;
-			}
-
-			// Ajout des Url à l'index
-			if (heure==iOptionHeure || iOptionHeure==-1 )
-			{
-				if (bOptionHtml==true)
-				{
-					if (bFichierHtml==true)
-					{
-						addReq(url, referer, heure);
-					}
-				}
-				else
-				{
-					addReq(url, referer, heure);
-				}
+				addReq(url, referer, heure);
 			}
 		}
 		else
 		{
-#ifdef MAP
-cerr << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< endl;
-#endif
+			addReq(url, referer, heure);
 		}
 	}
 }; //----- Fin de Méthode
 
 
-bool cJournal::splitLog(string aLigne, string &aDate, string &aRequete, string &aReferer)
+//TODO : traiter le gmt
+string cJournal::splitLog(string aLigne, int &aHeure, string &aRequete, string &aReferer, string &aStatut)
 // Algorithme :
 //
 {
-	bool regexOk = false;
+	//Récupération des infos bruts depuis la ligne actuelle selon un schéma précis
+	istringstream ligneActuelle(aLigne);
+	string useless, action;
+	
+	char date[3];
+	ligneActuelle.seekg (aLigne.find_first_of(':')+1, ios_base::beg);
+	ligneActuelle>>aHeure;
+	ligneActuelle.seekg (15, ios_base::cur);
+	ligneActuelle >> action >> aRequete;
+	ligneActuelle.seekg (10, ios_base::cur);
+	ligneActuelle >> aStatut >> useless >> aReferer;
 
-	regex_constants::match_flag_type fl = regex_constants::match_default;//flag : option de la regex
-			
-	//----------------------------- Récupération de la date ------------------------------------------------------
-	cmatch date;
-	regex dateRx("([0-9]){2}/([a-zA-z]{3})/([0-9]){4}:([0-9]){2}:([0-9]){2}:([0-9]){2}(.){2}([0-9]){4}");
-	regexOk = regex_search(aLigne.c_str(),date, dateRx, fl);
-	aDate = date[0];
-#if MAP
-	cout << sDate << endl;
+	if ((aReferer.length()>=3)&&(aStatut=="200")) 
+	{
+		return action;
+	}
+	else
+	{
+#ifdef MAP
+cerr << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< endl;
 #endif
-			
-	//----------------------- Récupération de l'url et du statut --------------------------------------------------
-	cmatch requete;
-	regex requeteRx("\"GET(.)(.){1,}(HTTP\/1\.1)\" [0-9]{3}"); // sélection du GET et non post interne à la recherche (remplace [a-zA-Z]{3,5} ) qui serait plus générique.
-	regexOk = regex_search(aLigne.c_str(),requete, requeteRx, fl);
-	aRequete = requete[0];
-#if MAP
-	cout << sRequete << endl;
-#endif
-			
-	//----------------------------- Récupération du referer ------------------------------------------------------
-	cmatch referer;
-	regex refererRx("\"(http://(.){1,}|-)\".\"");
-	regexOk = regex_search(aLigne.c_str(), referer, refererRx, fl);
-	aReferer = referer[0];
-#if MAP
-	cout << sReferer << endl;
-#endif
-
-	return regexOk;
+		return "";
+	}
 }; //----- Fin de Méthode
 
 
@@ -257,17 +223,16 @@ void cJournal::fromFile (string cFic)
 	{
 		string ligne; //variable dans laquelle on stock chaque ligne
 
-		//int i = 0;
 		while(getline(fic, ligne))  //On lit ligne par ligne
 		{
-			//cout << i++ << endl;
 
-			string sDate, sRequete, sReferer;
+			string sRequete, sReferer, sStatut;
+			int iHeure;
 
-			if (splitLog(ligne, sDate, sRequete, sReferer))
+			if (splitLog(ligne, iHeure, sRequete, sReferer, sStatut) == "GET")
 			{
 				//Ajout des données
-				traiterReq(sDate, sReferer, sRequete);
+				traiterReq(iHeure, sReferer, sRequete, sStatut);
 			}
 			else
 			{
@@ -281,6 +246,8 @@ void cJournal::fromFile (string cFic)
 #ifdef MAP // Affichage des différentes adresses stockés dans l'index, et la map
 	dispLogs(10);
 #endif
+
+	cout << "Lecture terminée" <<endl;
 
 	dispLogs(10);
 
