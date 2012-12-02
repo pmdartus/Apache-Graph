@@ -217,7 +217,6 @@ void cJournal::traiterReq(int heure, string referer, string url, string statut)
 }; //----- Fin de Méthode
 
 
-
 string cJournal::splitLog(string aLigne, int &aHeure, string &aRequete, string &aReferer, string &aStatut)
 // Algorithme :
 //
@@ -233,8 +232,9 @@ string cJournal::splitLog(string aLigne, int &aHeure, string &aRequete, string &
 	ligneActuelle >> action >> aRequete;
 	ligneActuelle.seekg (10, ios_base::cur);
 	ligneActuelle >> aStatut >> useless >> aReferer;
+	aStatut.erase(1,(aStatut.length()>=3)?2:0);
 
-	if ((aReferer.length()>=3)&&(aStatut=="200")) 
+	if ((aReferer.length()>=3)&&(aStatut=="2")) 
 	{
 		return action;
 	}
@@ -246,7 +246,6 @@ cerr << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< 
 		return "";
 	}
 }; //----- Fin de Méthode
-
 
 
 void cJournal::fromFile (string cFic)
@@ -309,8 +308,6 @@ void cJournal::screenOutput(vReqScreenOrd aReqS)
 }; //----- Fin de Méthode
 
 
-//TODO : si existe déjà, demandé si on écrase
-//TODO : vérifier que l'on écrit bien tous les nodes, et qu'une seule fois. Lister pour un total de 10 noeuds.
 void cJournal::graphVizOutput(vReqGraphOrd aReqG, vReqScreenOrd aReqS, string aDot)
 // Algorithme :
 //
