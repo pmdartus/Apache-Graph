@@ -14,7 +14,11 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+<<<<<<< HEAD
 using namespace std; 
+=======
+using namespace std;
+>>>>>>> cJournal
 
 //------------------------------------------------------ Include personnel
 #include "cCommande.h"

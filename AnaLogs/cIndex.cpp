@@ -114,7 +114,11 @@ cIndex::~cIndex ( )
 {
 #ifdef MAP
     cout << "Appel au destructeur de <cIndex>" << endl;
+<<<<<<< HEAD
 #endif 
+=======
+#endif
+>>>>>>> cJournal
 	Index.clear();
 } //----- Fin de ~cIndex
 

@@ -19,7 +19,11 @@ int main(int argc, char *argv[])
 #ifdef MAP
 	cJournal Journal = cJournal("C:\\Users\\MrKim\\Documents\\GitHub\\LogApache\\Debug\\test.log", 0, "C:\\Users\\MrKim\\Documents\\GitHub\\LogApache\\Debug\\test.dot");
 	Journal.dispLogs();
+<<<<<<< HEAD
 	int test; 
+=======
+	int test;
+>>>>>>> cJournal
 	cin >> test;
 #else
 	// Création de la classe Commande et execution de celle ci

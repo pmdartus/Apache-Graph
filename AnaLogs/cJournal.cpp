@@ -234,7 +234,11 @@ void cJournal::traiterReq(int heure, string referer, string url, string statut)
 						found = url.find(".gif");
 						if(found==string::npos)
 						{
+<<<<<<< HEAD
 							found = url.find(".ico"); 
+=======
+							found = url.find(".ico");
+>>>>>>> cJournal
 							if(found==string::npos)
 							{
 								found = url.find(".css");
