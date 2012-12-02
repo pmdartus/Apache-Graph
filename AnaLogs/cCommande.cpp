@@ -36,7 +36,7 @@ using namespace std;
 
 //-------------------------------------------- Constructeurs - destructeur
 
-
+//TODO : option -h pour afficher l'aide + le dire quand on propose une solution intelligente
 cCommande::cCommande(int aNbArg,char ** aCommande)
 // Algorithme :
 //

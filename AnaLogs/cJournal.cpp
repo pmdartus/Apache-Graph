@@ -398,7 +398,7 @@ void cJournal::graphVizOutput(vReqGraphOrd aReqG, vReqScreenOrd aReqS, string aD
 	while(it!=aReqG.rend()) //parcours des noeuds graphViz
 	{
 		itNodes= aReqNodes.find(it->url);
-		if ((itNodes!=aReqNodes.end())&&(itNodes->second)) //Le noeud existe et fait partit des 10 plus vus
+		if ((itNodes!=aReqNodes.end())&&(itNodes->second)) //Le noeud est dans le top 10
 		{
 			itNodes= aReqNodes.find(it->referer);
 			if (itNodes==aReqNodes.end()) //Le noeud referer n'a jamais été écrit
