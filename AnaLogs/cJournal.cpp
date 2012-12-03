@@ -33,7 +33,8 @@
 
 int cJournal::dispLogs()
 // Algorithme :
-//
+// Crée les structures de données propre à la sortie.
+// Execute ensuite les fonctions de sortie, selon les paramètres envoyés (-g ou non).
 {
 	//Création et initialisation de la nouvelle structure de donnée
 	vReqScreenOrd vReqS; 
@@ -53,7 +54,7 @@ int cJournal::dispLogs()
 
 int cJournal::dispIndex()
 // Algorithme :
-//
+// Trivial.
 {
 	Index.disp();
 
@@ -67,7 +68,8 @@ int cJournal::dispIndex()
 
 cJournal::cJournal ( string cFic, int aNbHits, string aGraphizFile, bool html, int heure )
 // Algorithme :
-//
+// Transfert des paramètres de la fonction dans les attributs de la classe
+// Puis chargement du fichier .log
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <cJournal>" << endl;
@@ -84,11 +86,12 @@ cJournal::cJournal ( string cFic, int aNbHits, string aGraphizFile, bool html, i
 
 cJournal::~cJournal ( )
 // Algorithme :
-//
+// Détruit toutes les allocations mémoires dues au pointeurs.
 {
 #ifdef MAP
     cout << "Appel au destructeur de <cJournal>" << endl;
 #endif
+	
 } //----- Fin de ~cJournal
 
 
@@ -98,7 +101,35 @@ cJournal::~cJournal ( )
 
 void cJournal::addReq(string sCible, string sReferer, int aHeure )
 // Algorithme :
-//
+// Voila l'algorithme détaillé :
+// FONCTION addRq ( sCible, sReferer : chaine de caractère, aHeure : entier ) : RETOURNE rien
+// DEBUT
+// |     entier indexCible = Index.ajouterUrl (sCible)
+// |     entier indexReferer = Index.ajouterUrl (sReferer)
+// |
+// |     iterateurCible = mapCible.trouver(indexCible)
+// |
+// |     SI (iterateur.trouver)
+// |     |     iterateurReferer=mapCible->mapReferer.trouver(indexReferer)
+// |     |
+// |     |     SI (iterateurReferer.trouver)
+// |     |     |     iterateurReferer->tableauHoraire[aHeure]=tableauHorraire[aHeure]+1
+// |     |     |     iterateurReferer->tableauHoraire[24]=tableauHorraire[24]+1
+// |     |     SINON
+// |     |     |     creer TableauHorraire 
+// |     |     |     TableauHorraire[24]=1      
+// |     |     |     TableauHorraire[aHeure]=1    
+// |     |     |     inserer dans mapCible->mapReferer(sReferer, TableauHorraire)
+// |     |     FINSI
+// |     SINON
+// |     |     creer mapReferer
+// |     |     creer TableauHoraire
+// |     |     TableauHorraire[24]=1      
+// |     |     TableauHorraire[aHeure]=1    
+// |     |     inserer dans mapReferer (sReferer, TableauHorraire)
+// |     |     inserer dans mapCible (mapReferer)
+// |     FINSI
+// FIN
 {
 	//Obtention de l'index pour les Url
 	int aCible = Index.addUrl(sCible);
@@ -156,7 +187,8 @@ void cJournal::addReq(string sCible, string sReferer, int aHeure )
 
 void cJournal::traiterReq(int heure, string referer, string url, string statut)
 // Algorithme :
-//
+// Traitement du referer avec suppression des " et des bases http:// du type intranet-if... et if.insa... pour avoir une cohérence dans les nom de noeuds.
+// Ajout des données dans la map grace à la fonction addReq, si le log respècte les paramètres de la commande.
 {
 	//Traitement du referer
 	referer.erase(0,1);
@@ -178,35 +210,12 @@ void cJournal::traiterReq(int heure, string referer, string url, string statut)
 	{
 		if (bOptionHtml==true)//Optimisation pour que l'on ne cherche que quand l'option html est active
 		{
-			// Recherche de l'accès d'un fichier à exclure
-			found = url.find(".jpg");
-			if(found==string::npos)
+			// Si le fichier n'est pas un fichier à eclure.
+			if ((url.find(".jpg")==string::npos)&&(url.find(".jpeg")==string::npos) && (url.find(".png")==string::npos) && (url.find(".gif")==string::npos) && (url.find(".ico")==string::npos) //images
+				&& (url.find(".css")==string::npos) //css
+				&& (url.find(".js")==string::npos)) //js
 			{
-				found = url.find(".jpeg");
-				if(found==string::npos)
-				{
-					found = url.find(".png");
-					if(found==string::npos)
-					{
-						found = url.find(".gif");
-						if(found==string::npos)
-						{
-							found = url.find(".ico"); 
-							if(found==string::npos)
-							{
-								found = url.find(".css");
-								if(found==string::npos)
-								{
-									found = url.find(".js");
-									if(found==string::npos)
-									{
-										addReq(url, referer, heure);
-									}
-								}
-							}
-						}
-					}
-				}
+				addReq(url, referer, heure);
 			}
 		}
 		else
@@ -219,7 +228,11 @@ void cJournal::traiterReq(int heure, string referer, string url, string statut)
 
 string cJournal::splitLog(string aLigne, int &aHeure, string &aRequete, string &aReferer, string &aStatut)
 // Algorithme :
-//
+// Utilise un stringstream pour parcourir la ligne. 
+// Fait appelle à la recherche find_first_of pour se placer au bon endroit dans le cas de l'heure, de la requete et du statut. Cela permet de gagner en efficacité.
+// Pour le referer, stocke d'abord le mot inutile situé entre aStatut et aReferer dans une variable tampon appellé useless. Nécessaire car taille du mot inutile variable.
+// Vérifie la cohérence des données recu, puis on renvoie l'action si c'est bon.
+// Sinon on affiche une erreur et on renvoie une chaine vide.
 {
 	//Récupération des infos bruts depuis la ligne actuelle selon un schéma précis
 	istringstream ligneActuelle(aLigne);
@@ -232,9 +245,9 @@ string cJournal::splitLog(string aLigne, int &aHeure, string &aRequete, string &
 	ligneActuelle >> action >> aRequete;
 	ligneActuelle.seekg (10, ios_base::cur);
 	ligneActuelle >> aStatut >> useless >> aReferer;
-	aStatut.erase(1,(aStatut.length()>=3)?2:0);
+	//aStatut.erase(1,(aStatut.length()>=3)?2:0);
 
-	if ((aReferer.length()>=3)&&(aStatut=="2")) 
+	if ((aReferer.length()>=3)&&(aStatut=="200")) 
 	{
 		return action;
 	}
@@ -250,7 +263,9 @@ cerr << "Statut de la requete non pris en compte : " <<status<< " | "<<action<< 
 
 void cJournal::fromFile (string cFic)
 // Algorithme :
-//
+// Démarre la lecture du .log.
+// Si on peut lire le fichier : on split puis traite chaque ligne, en indiquant lorsque la ligne est invalide.
+// Sinon on signale que le fichier n'est pas accessible.
 {
 	ifstream fic(cFic, ios::in);  //Ouverture d'un fichier en lecture
 
@@ -293,7 +308,7 @@ void cJournal::fromFile (string cFic)
 
 void cJournal::screenOutput(vReqScreenOrd aReqS)
 // Algorithme :
-//
+// Parcours inversé sur 10 éléments de la structure crée par orderLogs pour afficher l'id des 10 plus pages les plus accédés.
 {
 	vector<sReqScreen>::reverse_iterator it;
 
@@ -309,8 +324,29 @@ void cJournal::screenOutput(vReqScreenOrd aReqS)
 
 
 void cJournal::graphVizOutput(vReqGraphOrd aReqG, vReqScreenOrd aReqS, string aDot)
-// Algorithme :
-//
+// Algorithme détaillé :
+// FONCTION graphVizOutput(aReqG : vReqGraphOrd, aReqS : vReqScreenOrd, aDot : chaine de caracère ) RETOURNE rien
+// DEBUT
+// |     créer mapNodes
+// |     
+// |     TANT QUE iterateurTop10 DANS aReqS
+// |     |     SI iterateurTop10 DANS vReqGraphOrd
+// |     |     |     insérer noeud[iterateurTop10->url] DANS ficher.dot COULEUR bleu clair
+// |     |     |     insérer couple[iterateurTop10->idUrl, true] DANS mapNodes
+// |     |     FINSI
+// |     FIN TANT QUE
+// |     
+// |     TANT QUE iterateurGraph DANS aReqG
+// |     |     SI (iterateurGraph->idUrl DANS mapNodes->clé) ET mapNodes->attribut EST true
+// |     |     |     SI iterateurGraph->idReferer PAS DANS mapNodes->clé
+// |     |     |     |     insérer noeud[iterateurGraph->idUrl] DANS fichier.dot COULEUR blanc
+// |     |     |     |     insérer couple[iterateurGraph->idUrl, false] DANS mapNodes
+// |     |     |     FINSI
+// |     |     |     
+// |     |     |     insérer arc[iterateurGraph->url , iterateurGraph->referer] DANS fichier.dot
+// |     |     FIN SI
+// |     FIN TANT QUE
+// FIN
 {
 	mapNodes aReqNodes; //noeud déjà affichés
 
@@ -385,7 +421,10 @@ void cJournal::graphVizOutput(vReqGraphOrd aReqG, vReqScreenOrd aReqS, string aD
 
 int cJournal::orderLogs(vReqScreenOrd &aReqS, vReqGraphOrd &aReqG)
 // Algorithme :
-//
+// Parcours des maps contenant les infos des .logs.
+// Pour chaque couple cible/referer, ajouts des infos dans la structure vReqGraphOrd, si cohérent avec l'option. Puis ajout du nombre de visites à la somme totale.
+// Pour chaque cible, ajout des infos dans la structure vReqScreenOrd.
+// Tri des 2 vecteurs à la fin du parcours (possible grace à la surchage du symbole < dans chaque structure.
 {
 	itCible=mCible.begin();
 
@@ -403,8 +442,8 @@ int cJournal::orderLogs(vReqScreenOrd &aReqS, vReqGraphOrd &aReqG)
 			iNbVisite+=iActualVisites;
 
 			//ajout d'une requete dans la structure le fichier graphfiz
-			if (  (iNbHits==0)				//on a pas l'option -i
-			    ||(iActualVisites>=iNbHits)) //ou on est dans la bonne fourchette de l'option -i
+			if (  (iNbHits==0)				//on a pas l'option -l
+			    ||(iActualVisites>=iNbHits)) //ou on est dans la bonne fourchette de l'option -l
 			{
 				aReqG.push_back( sReqGraph(itCible->first, itReferer->first, iActualVisites) );
 			}

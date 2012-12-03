@@ -21,10 +21,14 @@ using namespace std;
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
+
+//--------------------Structures pour récuperer les données brut depuis le .log ------------------
 typedef int tableauHorraire[25];
 typedef map <int, int*> mapReferer;
 typedef map <int, mapReferer *> mapCible;
 
+//------------------------ Structures pour la sortie des infos récupérées ------------------------
+//Sortie à l'écran
 struct sReqScreen
 {
     int url, nbHits;
@@ -37,6 +41,8 @@ struct sReqScreen
 		return (nbHits < sReqCompare.nbHits);
     }
 };
+typedef vector <sReqScreen> vReqScreenOrd; 
+//Sortie dans un fichier graphViz
 struct sReqGraph
 {
     int url, referer, nbHits;
@@ -48,15 +54,16 @@ struct sReqGraph
 		return (nbHits < sReqCompare.nbHits);
     }
 };
-typedef vector <sReqScreen> vReqScreenOrd; 
 typedef vector <sReqGraph> vReqGraphOrd; 
 typedef map <int, bool> mapNodes;
 
 
 //------------------------------------------------------------------------ 
 // Rôle de la classe <cJournal>
-//
-//
+// cJournal est un peu le chef d'orchestre de l'exécution de notre commande.
+// Une fois que la partition à été lue par cCommande, cJournal jongle entre les différentes structures de données définis dans la spec.
+// Son but est de récupérer et trier si besoin est, les informations contenues dans le .log.
+// Elle va par la suite s'assurer d'une sortie à l'écran, voir dans un fichier graphViz
 //------------------------------------------------------------------------ 
 
 class cJournal
@@ -101,13 +108,13 @@ protected:
     
 	void addReq(string sCible, string sReferer, int aHeure);
     // Mode d'emploi :
-	// Ajout des requetes dans le journal
+	// Ajout des requetes dans le journal (les maps de stockage des logs)
     // Contrat :
     //
 
     void traiterReq(int heure, string referer,  string url, string statut);
     // Mode d'emploi :
-    // Ajout des requetes dans la struture de donnée depuis des données traités
+    // Traite et ajoute des requetes dans la struture de donnée à partir d'informations extraites d'un .log
     // Contrat :
 	// referer fait au moins 3 caractères
 	// le parametre -l exclut les extentions : .jpg, .jpeg, .png, .gif, .ico .css, .js
@@ -151,10 +158,14 @@ protected:
 
 private:
 //------------------------------------------------------- Attributs privés
-	mapCible mCible;
-	cIndex Index;
+
+	//-------------------Structures de données -------------------
+	mapCible mCible; //contient toutes les cibles des requètes.
+	cIndex Index; //L'index des couples ID/URL
 	mapReferer::iterator itReferer;
 	mapCible::iterator itCible;
+
+	//------------------- Options de la commande -------------------
 	bool bOptionHtml;
 	int iOptionHeure, iNbHits;
 	string sGraphizFile;
