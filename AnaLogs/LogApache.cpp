@@ -1,5 +1,5 @@
 /*************************************************************************
-                       cAnalog  -  Analyse Log Apache
+                    LogApache - Contient le main de analogs
                              -------------------
     debut                : 12 nov. 2012
     copyright            : (C) 2012 par pmdartus/kchouard
@@ -16,7 +16,7 @@ using namespace std;
 int main(int argc, char *argv[]) 
 {
 	// Création de la classe Commande et execution de celle ci
-	cCommande LectureCmd =cCommande(argc,&*argv);
+	cCommande LectureCmd = cCommande(argc,&*argv);
 }
 
 

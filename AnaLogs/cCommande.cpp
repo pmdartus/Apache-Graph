@@ -36,7 +36,6 @@ using namespace std;
 
 //-------------------------------------------- Constructeurs - destructeur
 
-//TODO : option -h pour afficher l'aide + le dire quand on propose une solution intelligente
 cCommande::cCommande(int aNbArg,char ** aCommande)
 // Algorithme :
 //
@@ -82,10 +81,11 @@ bool cCommande::isaNumber (string str)
 }; //----- Fin de Méthode
 
 
-bool cCommande::parameterT (string aParameter)
-// Algorithme :
-// Verification de la paramètre suivant est un nombre
-// Convertion de la string en int et vérification que l'heure est valide
+	bool cCommande::parameterT (string aParameter)
+	// Algorithme :
+	// Verification de la paramètre suivant est un nombre
+	// Convertion de la string en int et vérification que l'heure est valide
+	// Stockage de ce paramètre dans un attribut de la classe.
 {
 	if(!isaNumber(aParameter))
 	{
@@ -109,7 +109,8 @@ bool cCommande::parameterT (string aParameter)
 bool cCommande::parameterL (string aParameter)
 // Algorithme :
 // Verification de la paramètre suivant est un nombre
-// Convertion de la string en int et vérification que le nombre de hit est valide
+// Convertion de la string en int et vérification que le nombre de hit est valide.
+// Stockage de ce paramètre dans un attribut de la classe.
 {
 	if(!isaNumber(aParameter))
 	{
@@ -122,7 +123,7 @@ bool cCommande::parameterL (string aParameter)
 
 		if (iNbHit<0)
 		{
-			cerr << "SYNTAXE ERROR : le nombre de Hit est invalide : "<<endl;
+			cerr << "SYNTAXE ERROR : le nombre de Hits est invalide : "<<endl;
 			return true;
 		}
 	}
@@ -133,8 +134,8 @@ bool cCommande::parameterL (string aParameter)
 
 bool cCommande::parameterG (string aFileName)
 // Algorithme :
-// Verification de la paramètre suivant est bien un fichier .dot
-// Puis stockage du nom du fichier dans une varialbe locale
+// Verification que le paramètre suivant est bien un fichier .dot
+// Puis stockage du nom du fichier dans un attribut de la classe
 {
 	size_t found;
 	found = aFileName.find(".dot");
@@ -153,29 +154,58 @@ bool cCommande::parameterG (string aFileName)
 }; //----- Fin de Méthode
 
 
+bool cCommande::parameterH ()
+// Algorithme :
+// Chargement de man.txt puis affichage s'il existe. Renvoie ensuite true.
+// Renvoie false si le fichier n'existe pas.
+{
+	ifstream fic("man.txt", ios::in);  //Ouverture d'un fichier en lecture
+
+	if(fic)
+	{
+		string ligne; //variable dans laquelle on stock chaque ligne
+
+		while(getline(fic, ligne))  //On lit ligne par ligne
+		{
+			cout<<ligne<<endl;
+		}
+
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}; //----- Fin de Méthode
+
+
 void cCommande::gestionErreur (string aParameter)
 // Algorithme :
-// Recherche de commande connus pour proposer à l'utilisateur un correction intelligente
+// Recherche de morceaux de commandes connues grace à find() (recherche de caractères), pour proposer à l'utilisateur un correction intelligente
 {
-	if (aParameter.find("-t")!=string::npos)
+	if ((aParameter.find("-t")!=string::npos)||(aParameter.find("t")!=string::npos)||(aParameter.find("h")!=string::npos))
 	{
-		cout<<"		Vous voulez dire : -t [heure]"<<endl;
+		cout<<"		Vous vouliez dire : -t [heure] ?"<<endl;
 	}
 
-	else if (aParameter.find("-g")!=string::npos)
+	if ((aParameter.find("-g")!=string::npos)||(aParameter.find("g")!=string::npos)||(aParameter.find(".dot")!=string::npos))
 	{
-		cout<<"		Vous voulez dire : -g [nomFichier.dot]"<<endl;
+		cout<<"		Vous vouliez dire : -g [nomFichier.dot] ?"<<endl;
 	}
 
-	else if (aParameter.find("-l")!=string::npos)
+	if ((aParameter.find("-l")!=string::npos)||(aParameter.find("l")!=string::npos)||(aParameter.find("hit")!=string::npos))
 	{
-		cout<<"		Vous voulez dire : -l [nombreHits]"<<endl;
+		cout<<"		Vous vouliez dire : -l [nombreHits] ?"<<endl;
 	}
+
+	cout<<"Pour plus d'informations, affichez l'aide : analogs -h"<<endl;
 }; //----- Fin de Méthode
 
 
 void cCommande::cRCmd ()
 // Algorithme :
+// Pour chaque option, stock sa situation dans une string après un test.
+// Retourne toutes les strings à la fin.
 {
 	string OptionHtml;
 	if(bOptionHtml) {
@@ -191,8 +221,7 @@ void cCommande::cRCmd ()
 		OptionHeure="Connection entre : "+to_string(iOptionHeure)+" h ";
 	}
 
-
-	string OptionHit = "Nb de hits nim : "+to_string(iNbHit);
+	string OptionHit = "Nb de hits min : "+to_string(iNbHit);
 
 	string OptionGraphiz;
 	if (aGraphizFile.size()!=0) {
@@ -208,26 +237,32 @@ void cCommande::cRCmd ()
 	cout<<OptionGraphiz<<endl<<endl;
 }; //----- Fin de Méthode
 
-//TODO: débug ^^
+
 bool cCommande::verifyDotFile ()
 // Algorithme :
+// Essaye de lire le fichier. 
+// S'il y arrive, demande à l'utilisateur s'il veut écraser le fichier.
+//		Boucle jusqu'à avoir une réponse valide.
+//		Si oui, cad la commande o ou O, il renvoie true.
+//		sinon false.
+// Sinon renvoie false (le fichier n'existe pas).
 {
 	ifstream fic(aGraphizFile);
 
 	if(fic)
 	{
-		cout<<"Le fichier "<<aGraphizFile<<" existe deja vouslez vous l'effacer ? [O/N]";
+		cout<<"Le fichier "<<aGraphizFile<<" existe deja voulez-vous l'effacer ? [O/N]";
 
 		char  input;
 		do
 		{
 			cin>>input;
 		}
-		while ( !cin.fail() && input!='O' && input!='N' );
+		while ( !cin.fail() && (input!='O'||input!='o') && (input!='N'||input!='n') );
 
 		fic.close();
 
-		if (input =='O')
+		if (input =='O'||input == 'o')
 		{
 			return false;
 		}
@@ -244,14 +279,13 @@ bool cCommande::verifyDotFile ()
 }
 
 
-
 bool cCommande::exploitCmd()
 // Algorithme :
-// Lecture des paramètre, paramètre par paramètre jusque le fin
-// Suivant le paramètre en cour appeler la fonction spécifique au traitement de celle ci
-// Ou envoyer un message d'erreur du fait que le syntaxe n'est pas bonne
-// Dans le cas contraire créer le cJournal pour commencer le sotckage des données pour le traitement
-
+// Lecture des paramètres, paramètre par paramètre jusqu'au dernier
+// Suivant le paramètre en cours, appelle la fonction spécifique au traitement de celle ci
+// Ou envoye un message d'erreur du fait que le syntaxe n'est pas bonne. Il s'en suit une proposition de correction intelligente.
+// Si -h comme paramètre, affiche l'aide contenu dans le fichier man.txt situé dans le dossier de l'exécutable.
+// Dans le cas contraire et s'il l'utilisateur à bien spécifié un .log, créer le cJournal pour commencer le stockage des données pour le traitement
 {
 	int i=1;
 
@@ -314,6 +348,22 @@ bool cCommande::exploitCmd()
 			}
 		}
 
+		// ------------------ Affichage du manuel (-h) ------------------
+		else if (aParameter == "-h")
+		{
+			bSyntaxError=parameterH ();
+			if (!bSyntaxError)
+			{
+				return 0;
+			}
+			else
+			{
+#ifdef MAP
+	cerr << "Impossible de charger le manuel. Il doit y avoir man.txt dans le même dossier que l'exécutable."<< endl;
+#endif
+			}
+		}
+
 		else
 		{
 			cerr << "Invalid Parameter n : "<< cmd[i]<<endl;
@@ -331,6 +381,7 @@ bool cCommande::exploitCmd()
 		cerr<<"SYNTAXE ERROR : il l'option -l n'est accessible qu'avec l'option -g"<<endl;
 	}
 
+	//Vérifier le paramètre obligatoire : .log
 	if (aLogFile.size()==0 && bSyntaxError==false)
 	{
 		bSyntaxError=true;
@@ -341,16 +392,16 @@ bool cCommande::exploitCmd()
 	// Gestion des cas de retour
 	if (bSyntaxError == false)
 	{
-		#ifdef MAP
-			cRCmd ();
-		#endif
+#ifdef MAP
+	cRCmd ();
+#endif
 
 		cJournal Journal = cJournal(aLogFile, iNbHit, aGraphizFile, bOptionHtml, iOptionHeure );
 		Journal.dispLogs();
 	}
 	else
 	{
-		cout<<"Execution Aborted."<<endl;
+		cerr<<"Execution Aborted."<<endl;
 		return 0;
 	}
 

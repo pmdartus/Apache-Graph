@@ -30,7 +30,9 @@ using namespace std;
 
 int cIndex::addUrl (string aUrl)
 // Algorithme :
-//
+// Cherche l'index que l'on veut ajouter.
+// S'il existe, la fonction renvoie son id.
+// Sinon elle l'ajout à la map puis renvoi son id.
 {
 	it = Index.find(aUrl);
 
@@ -59,7 +61,9 @@ int cIndex::addUrl (string aUrl)
 
 string cIndex::findUrl (int aNumIndex)
 // Algorithme :
-//
+// Parcours toute la map jusqu'à trouver l'id cherché.
+// S'il l'a trouve, renvoie l'URL équivalente.
+// Sinon renvoie une ERROR+aNumIndex.
 {
 	it=Index.begin();
 
@@ -75,17 +79,17 @@ string cIndex::findUrl (int aNumIndex)
 	}
 	else
 	{
-	#ifdef MAP
-			cout<<"L'url recherche n'a pas était trouvé dans l'index"<<aNumIndex<<endl;
-	#endif
+#ifdef MAP
+	cerr<<"Aucune url n'a été trouvé dans pour l'index "<<aNumIndex<<endl;
+#endif
+		return ("ERROR"+aNumIndex);
 	}
 }; //----- Fin de Méthode
 
 
-
 void cIndex::disp ()
 // Algorithme :
-//
+// Parcours la map et affiche chaque lien index/URL
 {
 	for(it = Index.begin(); (it != Index.end()); it++)
 	{
@@ -95,7 +99,6 @@ void cIndex::disp ()
 
 
 //-------------------------------------------- Constructeurs - destructeur
-
 
 cIndex::cIndex ( )
 // Algorithme :
@@ -114,12 +117,7 @@ cIndex::~cIndex ( )
 {
 #ifdef MAP
     cout << "Appel au destructeur de <cIndex>" << endl;
-<<<<<<< HEAD
-#endif 
-=======
 #endif
->>>>>>> cJournal
-	Index.clear();
 } //----- Fin de ~cIndex
 
 

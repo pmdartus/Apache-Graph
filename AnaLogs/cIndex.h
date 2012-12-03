@@ -1,5 +1,6 @@
 ﻿/*************************************************************************
                 cIndex  -  gère les index pour les pages
+                             -------------------
     début                : 12 nov. 2012
     copyright            : (C) 2012 par pmdartus
 *************************************************************************/
@@ -18,13 +19,13 @@ using namespace std;
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
-typedef map <string, int> mIndex; // Établie un lien d’id entre une adresse et un numero
+typedef map <string, int> mIndex; // Établie un lien d’id entre une adresse URL et un entier
 
 
 //------------------------------------------------------------------------ 
 // Rôle de la classe <cJournal>
-//
-//
+// Stocker les ID correspondant à chaque URL contenue dans le .log.
+// Permet d'alléger l'espace mémoire et de limiter l'information redondante.
 //------------------------------------------------------------------------ 
 
 class cIndex
@@ -37,13 +38,15 @@ public:
 	
 	int addUrl (string aUrl);
     // Mode d'emploi :
-	// Ajout d'un Url à la liste -> retourne le numero de l'index
+	// Ajout d'un Url à la liste -> retourne le numero de l'index.
+	// Fonctionne également si l'url existe déjà dans la liste.
     // Contrat :
     //
 
 	string findUrl (int aNumIndex);
     // Mode d'emploi :
-	//Recherche d'une Url à partir de son index
+	// Recherche d'une Url à partir de son index
+	// Renvoie une ERROR+aNumIndex s'il ne l'a pas trouvé.
     // Contrat :
     //
 
